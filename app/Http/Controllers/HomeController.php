@@ -13,28 +13,48 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::where('is_active', true)
-            ->orderBy('order')
-            ->get();
+        try {
+            $sliders = Slider::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+        } catch (\Exception $e) {
+            $sliders = collect();
+        }
             
-        $latestNews = News::where('is_published', true)
-            ->orderBy('published_at', 'desc')
-            ->take(3)
-            ->get();
+        try {
+            $latestNews = News::where('is_published', true)
+                ->orderBy('published_at', 'desc')
+                ->take(3)
+                ->get();
+        } catch (\Exception $e) {
+            $latestNews = collect();
+        }
         
-        $upcomingFixtures = Fixture::where('status', 'scheduled')
-            ->where('match_date', '>=', now())
-            ->orderBy('match_date', 'asc')
-            ->take(3)
-            ->get();
+        try {
+            $upcomingFixtures = Fixture::where('status', 'scheduled')
+                ->where('match_date', '>=', now())
+                ->orderBy('match_date', 'asc')
+                ->take(3)
+                ->get();
+        } catch (\Exception $e) {
+            $upcomingFixtures = collect();
+        }
         
-        $sponsors = Sponsor::where('is_active', true)
-            ->orderBy('order')
-            ->get();
+        try {
+            $sponsors = Sponsor::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+        } catch (\Exception $e) {
+            $sponsors = collect();
+        }
         
-        $latestImages = GalleryImage::orderBy('created_at', 'desc')
-            ->take(8)
-            ->get();
+        try {
+            $latestImages = GalleryImage::orderBy('created_at', 'desc')
+                ->take(8)
+                ->get();
+        } catch (\Exception $e) {
+            $latestImages = collect();
+        }
 
         return view('home', compact('sliders', 'latestNews', 'upcomingFixtures', 'sponsors', 'latestImages'));
     }
