@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title><?php echo $__env->yieldContent('title', 'YSSC Football Club'); ?></title>
+    <title>@yield('title', 'YSSC Football Club')</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="<?php echo $__env->yieldContent('description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence.'); ?>">
-    <meta name="keywords" content="<?php echo $__env->yieldContent('keywords', 'YSSC, Young Silver Sports Club, football club, Colombo, Wellawatte, Sri Lanka football, youth football, sports club, football training, Cooray Park'); ?>">
+    <meta name="description" content="@yield('description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence.')">
+    <meta name="keywords" content="@yield('keywords', 'YSSC, Young Silver Sports Club, football club, Colombo, Wellawatte, Sri Lanka football, youth football, sports club, football training, Cooray Park')">
     <meta name="author" content="Young Silver Sports Club">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?php echo e(url()->current()); ?>">
+    <link rel="canonical" href="{{ url()->current() }}">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="<?php echo $__env->yieldContent('og_title', 'YSSC Football Club - Building Champions of Tomorrow'); ?>">
-    <meta property="og:description" content="<?php echo $__env->yieldContent('og_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.'); ?>">
-    <meta property="og:image" content="<?php echo $__env->yieldContent('og_image', asset('images/og-image.jpg')); ?>">
-    <meta property="og:url" content="<?php echo e(url()->current()); ?>">
-    <meta property="og:type" content="<?php echo $__env->yieldContent('og_type', 'website'); ?>">
+    <meta property="og:title" content="@yield('og_title', 'YSSC Football Club - Building Champions of Tomorrow')">
+    <meta property="og:description" content="@yield('og_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-image.jpg'))">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:site_name" content="YSSC Football Club">
     <meta property="og:locale" content="en_US">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo $__env->yieldContent('twitter_title', 'YSSC Football Club - Building Champions of Tomorrow'); ?>">
-    <meta name="twitter:description" content="<?php echo $__env->yieldContent('twitter_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.'); ?>">
-    <meta name="twitter:image" content="<?php echo $__env->yieldContent('twitter_image', asset('images/og-image.jpg')); ?>">
+    <meta name="twitter:title" content="@yield('twitter_title', 'YSSC Football Club - Building Champions of Tomorrow')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/og-image.jpg'))">
     <meta name="twitter:site" content="@YSSCFootball">
     <meta name="twitter:creator" content="@YSSCFootball">
     
@@ -47,7 +47,7 @@
     <meta name="msapplication-starturl" content="/">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="<?php echo e(asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png'))); ?>" as="image">
+    <link rel="preload" href="{{ asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png')) }}" as="image">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link rel="dns-prefetch" href="//www.google.com">
     <link rel="dns-prefetch" href="//www.facebook.com">
@@ -59,16 +59,13 @@
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
-        "<?php $__contextArgs = [];
-if (context()->has($__contextArgs[0])) :
-if (isset($value)) { $__contextPrevious[] = $value; }
-$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
+        "@context": "https://schema.org",
         "@type": "SportsClub",
         "name": "Young Silver Sports Club",
         "alternateName": "YSSC",
         "description": "Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.",
-        "url": "<?php echo e(url('/')); ?>",
-        "logo": "<?php echo e(asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png'))); ?>",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png')) }}",
         "foundingDate": "1967",
         "address": {
             "@type": "PostalAddress",
@@ -98,7 +95,7 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
     </script>
     
     <!-- Styles -->
-    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
         /* Yellow theme colors */
@@ -212,37 +209,37 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
         <nav class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
-                <a href="<?php echo e(route('home')); ?>" class="flex items-center space-x-3">
-                    <?php
+                <a href="{{ route('home') }}" class="flex items-center space-x-3">
+                    @php
                         $siteLogo = \App\Models\Setting::get('site_logo');
                         $siteName = \App\Models\Setting::get('site_name', 'YSSC Football Club');
                         $siteTagline = \App\Models\Setting::get('site_tagline', 'Victory Through Unity');
-                    ?>
+                    @endphp
                     
-                    <?php if($siteLogo): ?>
-                        <img src="<?php echo e(asset('storage/' . $siteLogo)); ?>" alt="<?php echo e($siteName); ?>" class="h-12 w-auto object-contain">
+                    @if($siteLogo)
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain">
                         <div>
-                            <h1 class="text-xl font-bold text-gray-900"><?php echo e($siteName); ?></h1>
-                            <?php if($siteTagline): ?>
-                                <p class="text-xs text-gray-600"><?php echo e($siteTagline); ?></p>
-                            <?php endif; ?>
+                            <h1 class="text-xl font-bold text-gray-900">{{ $siteName }}</h1>
+                            @if($siteTagline)
+                                <p class="text-xs text-gray-600">{{ $siteTagline }}</p>
+                            @endif
                         </div>
-                    <?php else: ?>
+                    @else
                         <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
                             <span class="text-2xl font-bold text-gray-900">Y</span>
                         </div>
                         <div>
-                            <h1 class="text-xl font-bold text-gray-900"><?php echo e($siteName); ?></h1>
-                            <?php if($siteTagline): ?>
-                                <p class="text-xs text-gray-600"><?php echo e($siteTagline); ?></p>
-                            <?php endif; ?>
+                            <h1 class="text-xl font-bold text-gray-900">{{ $siteName }}</h1>
+                            @if($siteTagline)
+                                <p class="text-xs text-gray-600">{{ $siteTagline }}</p>
+                            @endif
                         </div>
-                    <?php endif; ?>
+                    @endif
                 </a>
 
                     <!-- Desktop Navigation -->
                     <div class="hidden lg:flex items-center space-x-6">
-                        <a href="<?php echo e(route('home')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">HOME</a>
+                        <a href="{{ route('home') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">HOME</a>
                         
                         <!-- About Dropdown -->
                         <div class="relative dropdown-container">
@@ -253,11 +250,11 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
                                 </svg>
                             </button>
                             <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50">
-                                <a href="<?php echo e(route('about.history')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Our History</a>
-                                <a href="<?php echo e(route('about.club')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">The Club</a>
-                                <a href="<?php echo e(route('about.arena')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Arena</a>
-                                <a href="<?php echo e(route('about.office-bearers')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Office Bearers</a>
-                                <a href="<?php echo e(route('about.bank-details')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Bank Details</a>
+                                <a href="{{ route('about.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Our History</a>
+                                <a href="{{ route('about.club') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">The Club</a>
+                                <a href="{{ route('about.arena') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Arena</a>
+                                <a href="{{ route('about.office-bearers') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Office Bearers</a>
+                                <a href="{{ route('about.bank-details') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Bank Details</a>
                             </div>
                         </div>
 
@@ -270,28 +267,28 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
                                 </svg>
                             </button>
                             <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50">
-                                <a href="<?php echo e(route('sportspress.league')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">League</a>
-                                <a href="<?php echo e(route('sportspress.fixtures')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Fixtures</a>
+                                <a href="{{ route('sportspress.league') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">League</a>
+                                <a href="{{ route('sportspress.fixtures') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Fixtures</a>
                             </div>
                         </div>
 
-                        <a href="<?php echo e(route('sponsors')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SPONSORS</a>
-                        <a href="<?php echo e(route('gallery')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">GALLERY</a>
-                        <a href="<?php echo e(route('shop')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SHOP</a>
-                        <a href="<?php echo e(route('contact')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">CONTACT US</a>
-                        <a href="<?php echo e(route('news')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">NEWS</a>
+                        <a href="{{ route('sponsors') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SPONSORS</a>
+                        <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">GALLERY</a>
+                        <a href="{{ route('shop') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SHOP</a>
+                        <a href="{{ route('contact') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">CONTACT US</a>
+                        <a href="{{ route('news') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">NEWS</a>
                     
-                    <?php if(auth()->guard()->check()): ?>
-                        <?php if(auth()->user()->isAdmin()): ?>
-                            <a href="<?php echo e(route('admin.dashboard')); ?>" class="text-yellow-600 hover:text-yellow-700 font-medium transition uppercase">ADMIN</a>
-                        <?php endif; ?>
-                        <form method="POST" action="<?php echo e(route('logout')); ?>" class="inline">
-                            <?php echo csrf_field(); ?>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="text-yellow-600 hover:text-yellow-700 font-medium transition uppercase">ADMIN</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
                             <button type="submit" class="text-gray-700 hover:text-red-600 font-medium transition uppercase">LOGOUT</button>
                         </form>
-                    <?php else: ?>
-                        <a href="<?php echo e(route('login')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">LOGIN</a>
-                    <?php endif; ?>
+                    @else
+                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">LOGIN</a>
+                    @endauth
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -304,44 +301,44 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 
                 <!-- Mobile Navigation -->
                 <div id="mobile-menu" class="hidden lg:hidden mt-4 pb-4">
-                    <a href="<?php echo e(route('home')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">HOME</a>
+                    <a href="{{ route('home') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">HOME</a>
                     <div class="py-2">
                         <span class="block text-gray-900 font-semibold mb-1 uppercase">ABOUT</span>
-                        <a href="<?php echo e(route('about.history')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Our History</a>
-                        <a href="<?php echo e(route('about.club')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">The Club</a>
-                        <a href="<?php echo e(route('about.arena')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Arena</a>
-                        <a href="<?php echo e(route('about.office-bearers')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Office Bearers</a>
-                        <a href="<?php echo e(route('about.bank-details')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Bank Details</a>
+                        <a href="{{ route('about.history') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Our History</a>
+                        <a href="{{ route('about.club') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">The Club</a>
+                        <a href="{{ route('about.arena') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Arena</a>
+                        <a href="{{ route('about.office-bearers') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Office Bearers</a>
+                        <a href="{{ route('about.bank-details') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Bank Details</a>
                     </div>
                     <div class="py-2">
                         <span class="block text-gray-900 font-semibold mb-1 uppercase">SPORTSPRESS</span>
-                        <a href="<?php echo e(route('sportspress.league')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">League</a>
-                        <a href="<?php echo e(route('sportspress.fixtures')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Fixtures</a>
+                        <a href="{{ route('sportspress.league') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">League</a>
+                        <a href="{{ route('sportspress.fixtures') }}" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Fixtures</a>
                     </div>
-                    <a href="<?php echo e(route('sponsors')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SPONSORS</a>
-                    <a href="<?php echo e(route('gallery')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">GALLERY</a>
-                    <a href="<?php echo e(route('shop')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SHOP</a>
-                    <a href="<?php echo e(route('contact')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">CONTACT US</a>
-                    <a href="<?php echo e(route('news')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">NEWS</a>
+                    <a href="{{ route('sponsors') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SPONSORS</a>
+                    <a href="{{ route('gallery') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">GALLERY</a>
+                    <a href="{{ route('shop') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SHOP</a>
+                    <a href="{{ route('contact') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">CONTACT US</a>
+                    <a href="{{ route('news') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">NEWS</a>
                 
-                <?php if(auth()->guard()->check()): ?>
-                    <?php if(auth()->user()->isAdmin()): ?>
-                        <a href="<?php echo e(route('admin.dashboard')); ?>" class="block py-2 text-yellow-600 hover:text-yellow-700 font-medium uppercase">ADMIN</a>
-                    <?php endif; ?>
-                    <form method="POST" action="<?php echo e(route('logout')); ?>">
-                        <?php echo csrf_field(); ?>
+                @auth
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="block py-2 text-yellow-600 hover:text-yellow-700 font-medium uppercase">ADMIN</a>
+                    @endif
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
                         <button type="submit" class="block py-2 text-left w-full text-gray-700 hover:text-red-600 font-medium uppercase">LOGOUT</button>
                     </form>
-                <?php else: ?>
-                    <a href="<?php echo e(route('login')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">LOGIN</a>
-                <?php endif; ?>
+                @else
+                    <a href="{{ route('login') }}" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">LOGIN</a>
+                @endauth
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <main>
-        <?php echo $__env->yieldContent('content'); ?>
+        @yield('content')
     </main>
 
     <!-- Footer -->
@@ -351,25 +348,25 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Logo & About -->
                 <div>
-                    <?php
+                    @php
                         $footerLogo = \App\Models\Setting::get('site_logo');
                         $footerSiteName = \App\Models\Setting::get('site_name', 'YSSC Football Club');
                         $footerTagline = \App\Models\Setting::get('site_tagline', 'Victory Through Unity');
-                    ?>
+                    @endphp
                     
                     <div class="flex items-center space-x-3 mb-4">
-                        <?php if($footerLogo): ?>
-                            <img src="<?php echo e(asset('storage/' . $footerLogo)); ?>" alt="<?php echo e($footerSiteName); ?>" class="h-12 w-auto object-contain">
-                        <?php else: ?>
+                        @if($footerLogo)
+                            <img src="{{ asset('storage/' . $footerLogo) }}" alt="{{ $footerSiteName }}" class="h-12 w-auto object-contain">
+                        @else
                             <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
                                 <span class="text-2xl font-bold text-gray-900">Y</span>
                             </div>
-                        <?php endif; ?>
+                        @endif
                         <div>
-                            <h3 class="text-lg font-bold text-yellow-400"><?php echo e($footerSiteName); ?></h3>
-                            <?php if($footerTagline): ?>
-                                <p class="text-xs text-gray-400"><?php echo e($footerTagline); ?></p>
-                            <?php endif; ?>
+                            <h3 class="text-lg font-bold text-yellow-400">{{ $footerSiteName }}</h3>
+                            @if($footerTagline)
+                                <p class="text-xs text-gray-400">{{ $footerTagline }}</p>
+                            @endif
                         </div>
                     </div>
                     <p class="text-gray-300 text-sm">
@@ -381,10 +378,10 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-yellow-400">Quick Links</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="<?php echo e(route('about.history')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Our History</a></li>
-                        <li><a href="<?php echo e(route('about.office-bearers')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Office Bearers</a></li>
-                        <li><a href="<?php echo e(route('sportspress.fixtures')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Fixtures</a></li>
-                        <li><a href="<?php echo e(route('news')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Latest News</a></li>
+                        <li><a href="{{ route('about.history') }}" class="text-gray-300 hover:text-yellow-400 transition">Our History</a></li>
+                        <li><a href="{{ route('about.office-bearers') }}" class="text-gray-300 hover:text-yellow-400 transition">Office Bearers</a></li>
+                        <li><a href="{{ route('sportspress.fixtures') }}" class="text-gray-300 hover:text-yellow-400 transition">Fixtures</a></li>
+                        <li><a href="{{ route('news') }}" class="text-gray-300 hover:text-yellow-400 transition">Latest News</a></li>
                     </ul>
                 </div>
 
@@ -440,7 +437,7 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 
                 <div class="border-t border-gray-800 mt-8 pt-8">
                     <div class="text-center text-sm text-gray-400 space-y-2">
-                        <p>&copy; <?php echo e(date('Y')); ?> <?php echo e(\App\Models\Setting::get('site_name', 'YSSC Football Club')); ?>. All rights reserved.</p>
+                        <p>&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'YSSC Football Club') }}. All rights reserved.</p>
                         <p class="text-gray-500">
                             Developed by <a href="https://olexto.com" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 font-semibold transition">olexto Digital Solutions (Pvt) Ltd</a>
                         </p>
@@ -499,4 +496,4 @@ $value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
         });
     </script>
 </body>
-</html><?php /**PATH C:\Users\Dhanushka\Desktop\YSSC\YSSCWEBv3\resources\views/layouts/frontend.blade.php ENDPATH**/ ?>
+</html>
