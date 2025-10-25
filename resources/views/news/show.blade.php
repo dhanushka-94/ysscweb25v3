@@ -1,8 +1,42 @@
 @extends('layouts.frontend')
 
-@section('title', $news->title . ' - YSSC Football Club')
+@section('title', $news->title . ' - YSSC Football Club News')
+@section('description', $news->excerpt ?: 'Latest news from Young Silver Sports Club. Stay updated with YSSC football club news, events, and announcements.')
+@section('keywords', 'YSSC news, Young Silver Sports Club news, football club news, Colombo football news, YSSC updates, sports club news')
+@section('og_title', $news->title . ' - YSSC Football Club')
+@section('og_description', $news->excerpt ?: 'Latest news from Young Silver Sports Club. Stay updated with YSSC football club news, events, and announcements.')
+@section('og_type', 'article')
+@section('og_image', $news->featured_image ? asset('storage/' . $news->featured_image) : asset('images/og-image.jpg'))
 
 @section('content')
+    <!-- Article Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": "{{ $news->title }}",
+        "description": "{{ $news->excerpt ?: 'Latest news from Young Silver Sports Club' }}",
+        "image": "{{ $news->featured_image ? asset('storage/' . $news->featured_image) : asset('images/og-image.jpg') }}",
+        "datePublished": "{{ $news->published_at->format('c') }}",
+        "dateModified": "{{ $news->updated_at->format('c') }}",
+        "author": {
+            "@type": "Organization",
+            "name": "Young Silver Sports Club"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Young Silver Sports Club",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png')) }}"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ url()->current() }}"
+        }
+    }
+    </script>
     <!-- Article Header -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">

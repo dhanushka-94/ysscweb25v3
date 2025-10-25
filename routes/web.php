@@ -11,9 +11,13 @@ use App\Http\Controllers\OfficeBearerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AboutContentController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SitemapController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// SEO Routes
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // About Routes
 Route::prefix('about')->name('about.')->group(function () {

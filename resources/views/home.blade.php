@@ -1,6 +1,11 @@
 @extends('layouts.frontend')
 
-@section('title', 'Home - YSSC Football Club')
+@section('title', 'YSSC Football Club - Building Champions of Tomorrow | Young Silver Sports Club')
+@section('description', 'Young Silver Sports Club (YSSC) - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence, training, and competitive matches.')
+@section('keywords', 'YSSC, Young Silver Sports Club, football club Colombo, Wellawatte football, Sri Lanka football, youth football training, Cooray Park, football academy, sports club Colombo')
+@section('og_title', 'YSSC Football Club - Building Champions of Tomorrow')
+@section('og_description', 'Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence.')
+@section('og_type', 'website')
 
 @section('content')
     <!-- Hero Slider Section -->
