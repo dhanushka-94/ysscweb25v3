@@ -11,8 +11,18 @@ class AdminGalleryController extends Controller
 {
     public function index()
     {
-        $images = GalleryImage::orderBy('created_at', 'desc')->paginate(20);
-        return view('admin.gallery.index', compact('images'));
+        // Group images by category and sort by latest first
+        $groupedImages = GalleryImage::orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('category')
+            ->map(function ($images) {
+                return $images->sortByDesc('created_at');
+            })
+            ->sortByDesc(function ($images) {
+                return $images->first()->created_at;
+            });
+        
+        return view('admin.gallery.index', compact('groupedImages'));
     }
 
     public function create()
@@ -32,12 +42,29 @@ class AdminGalleryController extends Controller
         ]);
 
         if ($request->hasFile('image_path')) {
-            $validated['image_path'] = $request->file('image_path')->store('gallery', 'public');
+            $file = $request->file('image_path');
+            $title = $validated['title'];
+            $slug = \Str::slug($title);
+            $extension = $file->getClientOriginalExtension();
+            $filename = $slug . '_' . time() . '.' . $extension;
+            $validated['image_path'] = $file->storeAs('gallery', $filename, 'public');
         }
 
         $validated['is_featured'] = $request->has('is_featured');
 
-        GalleryImage::create($validated);
+        // Check if image with same title exists and replace it
+        $existingImage = GalleryImage::where('title', $validated['title'])->first();
+        if ($existingImage) {
+            // Delete old image file
+            if ($existingImage->image_path && Storage::disk('public')->exists($existingImage->image_path)) {
+                Storage::disk('public')->delete($existingImage->image_path);
+            }
+            // Update existing record
+            $existingImage->update($validated);
+        } else {
+            // Create new record
+            GalleryImage::create($validated);
+        }
 
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery image added successfully.');
     }
@@ -62,7 +89,12 @@ class AdminGalleryController extends Controller
             if ($gallery->image_path && Storage::disk('public')->exists($gallery->image_path)) {
                 Storage::disk('public')->delete($gallery->image_path);
             }
-            $validated['image_path'] = $request->file('image_path')->store('gallery', 'public');
+            $file = $request->file('image_path');
+            $title = $validated['title'];
+            $slug = \Str::slug($title);
+            $extension = $file->getClientOriginalExtension();
+            $filename = $slug . '_' . time() . '.' . $extension;
+            $validated['image_path'] = $file->storeAs('gallery', $filename, 'public');
         }
 
         $validated['is_featured'] = $request->has('is_featured');
@@ -109,24 +141,53 @@ class AdminGalleryController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $order++;
-                $imagePath = $image->store('gallery', 'public');
                 
-                // Generate title from filename
+                // Generate unique title from filename for each image
                 $baseTitle = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 $baseTitle = str_replace(['-', '_'], ' ', $baseTitle);
                 $baseTitle = ucwords($baseTitle);
                 
-                // Add prefix if provided
-                $title = $titlePrefix ? $titlePrefix . ' - ' . $baseTitle : $baseTitle;
+                // Create unique title for each image (no prefix to avoid grouping)
+                $title = $baseTitle;
+                
+                // If title_prefix is provided, use it as category instead
+                if ($titlePrefix) {
+                    $category = $titlePrefix;
+                }
+                
+                // Create filename with title slug
+                $slug = \Str::slug($title);
+                $extension = $image->getClientOriginalExtension();
+                $filename = $slug . '_' . time() . '_' . $order . '.' . $extension;
+                $imagePath = $image->storeAs('gallery', $filename, 'public');
 
-                GalleryImage::create([
-                    'title' => $title,
-                    'description' => $description,
-                    'image_path' => $imagePath,
-                    'category' => $category,
-                    'order' => $order,
-                    'is_featured' => $isFeatured,
-                ]);
+                // Check if image with same title exists and replace it
+                $existingImage = GalleryImage::where('title', $title)->first();
+                if ($existingImage) {
+                    // Delete old image file
+                    if ($existingImage->image_path && Storage::disk('public')->exists($existingImage->image_path)) {
+                        Storage::disk('public')->delete($existingImage->image_path);
+                    }
+                    // Update existing record
+                    $existingImage->update([
+                        'title' => $title,
+                        'description' => $description,
+                        'image_path' => $imagePath,
+                        'category' => $category,
+                        'order' => $order,
+                        'is_featured' => $isFeatured,
+                    ]);
+                } else {
+                    // Create new record
+                    GalleryImage::create([
+                        'title' => $title,
+                        'description' => $description,
+                        'image_path' => $imagePath,
+                        'category' => $category,
+                        'order' => $order,
+                        'is_featured' => $isFeatured,
+                    ]);
+                }
 
                 $uploadedCount++;
             }
@@ -134,5 +195,33 @@ class AdminGalleryController extends Controller
 
         return redirect()->route('admin.gallery.index')
             ->with('success', "Successfully uploaded {$uploadedCount} images to gallery.");
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $request->validate([
+            'selected_images' => 'required|array|min:1',
+            'selected_images.*' => 'exists:gallery_images,id',
+        ]);
+
+        $selectedImages = $request->input('selected_images');
+        $deletedCount = 0;
+
+        foreach ($selectedImages as $imageId) {
+            $image = GalleryImage::find($imageId);
+            if ($image) {
+                // Delete the file from storage
+                if ($image->image_path && Storage::disk('public')->exists($image->image_path)) {
+                    Storage::disk('public')->delete($image->image_path);
+                }
+                
+                // Delete the database record
+                $image->delete();
+                $deletedCount++;
+            }
+        }
+
+        return redirect()->route('admin.gallery.index')
+            ->with('success', "Successfully deleted {$deletedCount} images from gallery.");
     }
 }

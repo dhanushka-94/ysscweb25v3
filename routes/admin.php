@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\AdminOfficeBearerController;
+use App\Http\Controllers\Admin\AdminMemberApplicationController;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -35,6 +36,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Gallery Management
     Route::get('gallery/bulk-upload/form', [AdminGalleryController::class, 'bulkUpload'])->name('gallery.bulk-upload');
     Route::post('gallery/bulk-upload/store', [AdminGalleryController::class, 'storeBulk'])->name('gallery.bulk-store');
+    Route::post('gallery/bulk-delete', [AdminGalleryController::class, 'bulkDelete'])->name('gallery.bulk-delete');
     Route::resource('gallery', AdminGalleryController::class);
     
     // Sponsors Management
@@ -45,5 +47,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Office Bearers Management
     Route::resource('office-bearers', AdminOfficeBearerController::class);
+    
+    // Member Applications Management
+    Route::resource('member-applications', AdminMemberApplicationController::class)->except(['create', 'store']);
+    Route::post('/member-applications/{memberApplication}/approve', [AdminMemberApplicationController::class, 'approve'])->name('member-applications.approve');
+    Route::post('/member-applications/{memberApplication}/reject', [AdminMemberApplicationController::class, 'reject'])->name('member-applications.reject');
 });
 

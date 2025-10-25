@@ -18,7 +18,12 @@ class ProductController extends Controller
             ->whereNotNull('category')
             ->pluck('category');
         
-        return view('shop.index', compact('products', 'categories'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Shop', 'url' => null]
+        ];
+        
+        return view('shop.index', compact('products', 'categories', 'breadcrumbs'));
     }
 
     public function show(Product $product)
@@ -33,6 +38,12 @@ class ProductController extends Controller
             ->take(4)
             ->get();
         
-        return view('shop.show', compact('product', 'relatedProducts'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Shop', 'url' => route('shop')],
+            ['title' => $product->name, 'url' => null]
+        ];
+        
+        return view('shop.show', compact('product', 'relatedProducts', 'breadcrumbs'));
     }
 }

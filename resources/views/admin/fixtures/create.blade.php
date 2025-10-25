@@ -23,7 +23,7 @@
             <div class="bg-white rounded-lg shadow p-8">
                 <h1 class="text-3xl font-bold text-gray-900 mb-6">Add Fixture</h1>
 
-                <form action="{{ route('admin.fixtures.store') }}" method="POST">
+                <form action="{{ route('admin.fixtures.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="space-y-6">
@@ -46,6 +46,32 @@
                                 @error('away_team')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <!-- Team Logo Upload Section -->
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Team Logos (100x100px recommended)</h3>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label for="home_team_logo" class="block text-sm font-semibold text-gray-700 mb-2">Home Team Logo</label>
+                                    <input type="file" id="home_team_logo" name="home_team_logo" accept="image/*"
+                                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('home_team_logo') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">JPG, PNG, GIF up to 2MB</p>
+                                    @error('home_team_logo')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="away_team_logo" class="block text-sm font-semibold text-gray-700 mb-2">Away Team Logo</label>
+                                    <input type="file" id="away_team_logo" name="away_team_logo" accept="image/*"
+                                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('away_team_logo') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">JPG, PNG, GIF up to 2MB</p>
+                                    @error('away_team_logo')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 

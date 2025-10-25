@@ -44,6 +44,12 @@ class OfficeBearerController extends Controller
             $sortedOfficeBearers = collect();
         }
         
-        return view('about.office-bearers', compact('sortedOfficeBearers'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => null],
+            ['title' => 'Office Bearers', 'url' => null]
+        ];
+        
+        return view('about.office-bearers', compact('sortedOfficeBearers', 'breadcrumbs'));
     }
 }

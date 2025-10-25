@@ -30,7 +30,18 @@
 
                                 <div class="flex items-center justify-center gap-6 flex-1">
                                     <div class="text-center flex-1">
-                                        <div class="font-bold text-lg text-gray-900">{{ $fixture->home_team }}</div>
+                                        <div class="flex flex-col items-center gap-2">
+                                            @if($fixture->home_team_logo)
+                                                <img src="{{ asset('storage/' . $fixture->home_team_logo) }}" 
+                                                     alt="{{ $fixture->home_team }}" 
+                                                     class="w-16 h-16 object-cover rounded-lg border-2 border-gray-300">
+                                            @else
+                                                <div class="w-16 h-16 bg-gray-200 rounded-lg border-2 border-gray-300 flex items-center justify-center">
+                                                    <span class="text-gray-500 text-xs font-bold">{{ substr($fixture->home_team, 0, 2) }}</span>
+                                                </div>
+                                            @endif
+                                            <div class="font-bold text-lg text-gray-900">{{ $fixture->home_team }}</div>
+                                        </div>
                                     </div>
                                     
                                     @if($fixture->status === 'finished' && $fixture->home_score !== null)
@@ -42,7 +53,18 @@
                                     @endif
                                     
                                     <div class="text-center flex-1">
-                                        <div class="font-bold text-lg text-gray-900">{{ $fixture->away_team }}</div>
+                                        <div class="flex flex-col items-center gap-2">
+                                            @if($fixture->away_team_logo)
+                                                <img src="{{ asset('storage/' . $fixture->away_team_logo) }}" 
+                                                     alt="{{ $fixture->away_team }}" 
+                                                     class="w-16 h-16 object-cover rounded-lg border-2 border-gray-300">
+                                            @else
+                                                <div class="w-16 h-16 bg-gray-200 rounded-lg border-2 border-gray-300 flex items-center justify-center">
+                                                    <span class="text-gray-500 text-xs font-bold">{{ substr($fixture->away_team, 0, 2) }}</span>
+                                                </div>
+                                            @endif
+                                            <div class="font-bold text-lg text-gray-900">{{ $fixture->away_team }}</div>
+                                        </div>
                                     </div>
                                 </div>
 

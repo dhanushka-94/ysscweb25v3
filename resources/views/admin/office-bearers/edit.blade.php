@@ -59,26 +59,42 @@
 
                     <!-- Position/Designation -->
                     <div>
-                        <label for="position" class="block text-sm font-semibold text-gray-700 mb-2">Position/Designation *</label>
-                        <select 
-                            id="position" 
-                            name="position" 
-                            required
-                            class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('position') border-red-500 @enderror"
-                        >
-                            <option value="">Select Category First</option>
-                        </select>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Position/Designation *</label>
+                        
+                        <!-- Predefined Positions -->
+                        <div class="mb-3">
+                            <label for="position" class="block text-sm text-gray-600 mb-1">Select from predefined positions:</label>
+                            <select 
+                                id="position" 
+                                name="position" 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('position') border-red-500 @enderror"
+                                onchange="clearCustomPosition()"
+                            >
+                                <option value="">Select Category First</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Custom Position -->
+                        <div>
+                            <label for="custom_position" class="block text-sm text-gray-600 mb-1">Or enter a custom position:</label>
+                            <input 
+                                type="text" 
+                                id="custom_position" 
+                                name="custom_position"
+                                placeholder="Enter custom position"
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('custom_position') border-red-500 @enderror"
+                                onchange="clearPredefinedPosition()"
+                                value="{{ old('custom_position', $officeBearer->position) }}"
+                            >
+                        </div>
+                        
                         @error('position')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                        <p class="text-sm text-gray-500 mt-1">Or type a custom position below</p>
-                        <input 
-                            type="text" 
-                            id="custom_position" 
-                            placeholder="Custom position (optional)"
-                            class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none mt-2"
-                            onchange="if(this.value) document.getElementById('position').value = this.value"
-                        >
+                        @error('custom_position')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                        <p class="text-sm text-gray-500 mt-1">Choose either a predefined position or enter a custom one</p>
                     </div>
 
                     <!-- Email -->
@@ -216,6 +232,14 @@ function updatePositions() {
         option.selected = true;
         positionSelect.appendChild(option);
     }
+}
+
+function clearCustomPosition() {
+    document.getElementById('custom_position').value = '';
+}
+
+function clearPredefinedPosition() {
+    document.getElementById('position').value = '';
 }
 
 function previewImage(event) {

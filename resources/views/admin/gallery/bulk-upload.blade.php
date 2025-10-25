@@ -92,11 +92,11 @@
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Apply to All Images</h3>
                             
                             <div>
-                                <label for="title_prefix" class="block text-sm font-semibold text-gray-700 mb-2">Title Prefix (Optional)</label>
+                                <label for="title_prefix" class="block text-sm font-semibold text-gray-700 mb-2">Category (Optional)</label>
                                 <input type="text" id="title_prefix" name="title_prefix" placeholder="e.g. Championship 2024, Training Session"
                                     class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('title_prefix') border-red-500 @enderror"
                                     value="{{ old('title_prefix') }}">
-                                <p class="text-sm text-gray-500 mt-1">This will be added before each auto-generated title (e.g., "Championship 2024 - Image Name")</p>
+                                <p class="text-sm text-gray-500 mt-1">This will be used as the category for all images. Each image will have its own gallery based on filename.</p>
                                 @error('title_prefix')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-sm text-yellow-700">
-                                        <strong>Note:</strong> Image titles will be automatically generated from filenames (with optional prefix). Title prefix, category, and description (if provided) will apply to all images. You can edit individual images after upload to customize further.
+                                        <strong>Note:</strong> Each image will create its own separate gallery based on the filename. The category field will be applied to all images. You can edit individual images after upload to customize further.
                                     </p>
                                 </div>
                             </div>

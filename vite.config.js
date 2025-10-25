@@ -8,4 +8,31 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        // Performance optimizations
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+            },
+        },
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['alpinejs'],
+                },
+            },
+        },
+        // Asset optimization
+        assetsInlineLimit: 4096,
+        cssCodeSplit: true,
+        sourcemap: false,
+    },
+    server: {
+        // Development server optimizations
+        hmr: {
+            overlay: false,
+        },
+    },
 });

@@ -1,21 +1,2 @@
 User-agent: *
-Allow: /
-
-# Sitemap
-Sitemap: {{ url('/sitemap.xml') }}
-
-# Disallow admin area
-Disallow: /admin/
-Disallow: /login
-Disallow: /register
-Disallow: /password-reset
-
-# Allow important pages
-Allow: /
-Allow: /about/
-Allow: /news/
-Allow: /gallery/
-Allow: /contact/
-Allow: /team/
-Allow: /fixtures/
-Allow: /shop/
+Disallow:

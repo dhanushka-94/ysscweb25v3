@@ -12,7 +12,13 @@ class NewsController extends Controller
         $news = News::where('is_published', true)
             ->orderBy('published_at', 'desc')
             ->paginate(9);
-        return view('news.index', compact('news'));
+            
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'News', 'url' => null]
+        ];
+        
+        return view('news.index', compact('news', 'breadcrumbs'));
     }
 
     public function show(News $news)
@@ -27,6 +33,12 @@ class NewsController extends Controller
             ->take(3)
             ->get();
         
-        return view('news.show', compact('news', 'relatedNews'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'News', 'url' => route('news')],
+            ['title' => $news->title, 'url' => null]
+        ];
+        
+        return view('news.show', compact('news', 'relatedNews', 'breadcrumbs'));
     }
 }

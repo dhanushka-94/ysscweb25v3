@@ -1,6 +1,13 @@
 @extends('layouts.frontend')
 
-@section('title', 'Contact Us - YSSC Football Club')
+@section('title', 'Contact Us - Young Silver Sports Club')
+@section('description', 'Contact Young Silver Sports Club. Visit us at 27, Vincent Lane, Wellawatte, Colombo 06. Call +94 714 813 981 or email info@youngsilversportsclub.com')
+@section('keywords', 'Young Silver Sports Club contact, YSSC contact, football club contact, Colombo football contact, Wellawatte sports contact, Sri Lanka football contact, Vincent Lane, phone, email')
+@section('og_title', 'Contact Us - Young Silver Sports Club')
+@section('og_description', 'Contact Young Silver Sports Club. Visit us at 27, Vincent Lane, Wellawatte, Colombo 06. Call +94 714 813 981 or email info@youngsilversportsclub.com')
+@section('og_type', 'website')
+@section('twitter_title', 'Contact Us - Young Silver Sports Club')
+@section('twitter_description', 'Contact Young Silver Sports Club. Visit us at 27, Vincent Lane, Wellawatte, Colombo 06. Call +94 714 813 981 or email info@youngsilversportsclub.com')
 
 @section('content')
     <!-- Page Header -->
@@ -129,7 +136,7 @@
                         <div class="bg-gray-50 rounded-lg p-6">
                             <h3 class="font-bold text-lg text-gray-900 mb-4">Follow Us</h3>
                             <div class="flex space-x-4">
-                                <a href="https://www.facebook.com/YoungSilverSportsClub" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 transition" title="Facebook">
++-+                                <a href="https://www.facebook.com/YoungSilverSportsClub" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 transition" title="Facebook">
                                     <svg class="w-6 h-6 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                     </svg>

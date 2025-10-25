@@ -8,21 +8,45 @@ class AboutContentController extends Controller
 {
     public function history()
     {
-        return view('about.history');
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => null],
+            ['title' => 'Our History', 'url' => null]
+        ];
+        
+        return view('about.history', compact('breadcrumbs'));
     }
 
     public function club()
     {
-        return view('about.club');
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => null],
+            ['title' => 'The Club', 'url' => null]
+        ];
+        
+        return view('about.club', compact('breadcrumbs'));
     }
 
     public function arena()
     {
-        return view('about.arena');
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => null],
+            ['title' => 'Arena', 'url' => null]
+        ];
+        
+        return view('about.arena', compact('breadcrumbs'));
     }
 
     public function bankDetails()
     {
-        return view('about.bank-details');
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => null],
+            ['title' => 'Bank Details', 'url' => null]
+        ];
+        
+        return view('about.bank-details', compact('breadcrumbs'));
     }
 }

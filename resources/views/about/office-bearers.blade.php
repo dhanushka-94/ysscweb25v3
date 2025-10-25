@@ -30,9 +30,11 @@
                                 @foreach($bearers as $bearer)
                                     <div class="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-yellow-400 hover:shadow-lg transition">
                                         @if($bearer->photo)
-                                            <img src="{{ asset('storage/' . $bearer->photo) }}" alt="{{ $bearer->name }}" class="w-full h-64 object-cover">
+                                            <div class="aspect-square w-full">
+                                                <img src="{{ asset('storage/' . $bearer->photo) }}" alt="{{ $bearer->name }}" class="w-full h-full object-cover">
+                                            </div>
                                         @else
-                                            <div class="w-full h-64 bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center">
+                                            <div class="aspect-square w-full bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center">
                                                 <div class="text-6xl font-bold text-white">{{ substr($bearer->name, 0, 1) }}</div>
                                             </div>
                                         @endif

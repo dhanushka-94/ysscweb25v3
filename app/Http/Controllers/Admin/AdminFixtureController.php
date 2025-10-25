@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminFixtureController extends Controller
 {
@@ -23,7 +24,9 @@ class AdminFixtureController extends Controller
     {
         $validated = $request->validate([
             'home_team' => 'required|string|max:255',
+            'home_team_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'away_team' => 'required|string|max:255',
+            'away_team_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'competition' => 'nullable|string|max:255',
             'match_date' => 'required|date',
             'venue' => 'nullable|string|max:255',
@@ -32,6 +35,20 @@ class AdminFixtureController extends Controller
             'status' => 'required|in:scheduled,live,finished,postponed,cancelled',
             'notes' => 'nullable|string',
         ]);
+
+        // Handle home team logo upload
+        if ($request->hasFile('home_team_logo')) {
+            $file = $request->file('home_team_logo');
+            $filename = 'home_' . time() . '_' . $file->getClientOriginalName();
+            $validated['home_team_logo'] = $file->storeAs('team_logos', $filename, 'public');
+        }
+
+        // Handle away team logo upload
+        if ($request->hasFile('away_team_logo')) {
+            $file = $request->file('away_team_logo');
+            $filename = 'away_' . time() . '_' . $file->getClientOriginalName();
+            $validated['away_team_logo'] = $file->storeAs('team_logos', $filename, 'public');
+        }
 
         Fixture::create($validated);
 
@@ -47,7 +64,9 @@ class AdminFixtureController extends Controller
     {
         $validated = $request->validate([
             'home_team' => 'required|string|max:255',
+            'home_team_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'away_team' => 'required|string|max:255',
+            'away_team_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'competition' => 'nullable|string|max:255',
             'match_date' => 'required|date',
             'venue' => 'nullable|string|max:255',
@@ -56,6 +75,30 @@ class AdminFixtureController extends Controller
             'status' => 'required|in:scheduled,live,finished,postponed,cancelled',
             'notes' => 'nullable|string',
         ]);
+
+        // Handle home team logo upload
+        if ($request->hasFile('home_team_logo')) {
+            // Delete old logo if exists
+            if ($fixture->home_team_logo && Storage::disk('public')->exists($fixture->home_team_logo)) {
+                Storage::disk('public')->delete($fixture->home_team_logo);
+            }
+            
+            $file = $request->file('home_team_logo');
+            $filename = 'home_' . time() . '_' . $file->getClientOriginalName();
+            $validated['home_team_logo'] = $file->storeAs('team_logos', $filename, 'public');
+        }
+
+        // Handle away team logo upload
+        if ($request->hasFile('away_team_logo')) {
+            // Delete old logo if exists
+            if ($fixture->away_team_logo && Storage::disk('public')->exists($fixture->away_team_logo)) {
+                Storage::disk('public')->delete($fixture->away_team_logo);
+            }
+            
+            $file = $request->file('away_team_logo');
+            $filename = 'away_' . time() . '_' . $file->getClientOriginalName();
+            $validated['away_team_logo'] = $file->storeAs('team_logos', $filename, 'public');
+        }
 
         $fixture->update($validated);
 

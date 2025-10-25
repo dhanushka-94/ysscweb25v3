@@ -35,6 +35,9 @@
                     <a href="{{ route('admin.office-bearers.index') }}" class="border-transparent text-gray-500 hover:border-yellow-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                         Office Bearers
                     </a>
+                    <a href="{{ route('admin.member-applications.index') }}" class="border-transparent text-gray-500 hover:border-yellow-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        Applications
+                    </a>
                 </div>
             </div>
             <div class="flex items-center space-x-4">

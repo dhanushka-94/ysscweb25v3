@@ -15,7 +15,7 @@
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="mb-12">
-                <img src="{{ asset('images/about_us.jpeg') }}" alt="Young Silver Sports Club" class="rounded-lg shadow-2xl w-full h-auto max-h-96 object-cover">
+                <img src="{{ asset('images/about_us.jpeg') }}" alt="Young Silver Sports Club" class="rounded-lg shadow-2xl w-full h-auto object-contain">
             </div>
 
             <!-- Main Content -->
@@ -87,6 +87,60 @@
                             <span>Provide educational opportunities to develop all players, coaches, referees, and administrators.</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Our Club Section -->
+    <section class="py-16 bg-gradient-to-r from-yellow-400 to-yellow-500">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Join Our Club</h2>
+                <p class="text-lg md:text-xl text-gray-800 mb-8">
+                    Become part of our football family and start your journey with Young Silver Sports Club today. We welcome players of all skill levels and ages who share our passion for football.
+                </p>
+                
+                <!-- Membership Benefits -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg p-6">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Community</h3>
+                        <p class="text-sm text-gray-800">Join a supportive football community that values teamwork and friendship.</p>
+                    </div>
+                    
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg p-6">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Training</h3>
+                        <p class="text-sm text-gray-800">Professional coaching and regular training sessions to improve your skills.</p>
+                    </div>
+                    
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg p-6">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Competitions</h3>
+                        <p class="text-sm text-gray-800">Participate in local and national football competitions and tournaments.</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ route('member-application.index') }}" class="bg-white text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg">
+                        Apply for Membership
+                    </a>
+                    <a href="{{ route('contact') }}" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition shadow-lg">
+                        Contact Us
+                    </a>
                 </div>
             </div>
         </div>

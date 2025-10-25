@@ -9,7 +9,12 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return view('contact.index');
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Contact Us', 'url' => null]
+        ];
+        
+        return view('contact.index', compact('breadcrumbs'));
     }
 
     public function send(Request $request)

@@ -67,7 +67,8 @@ class AdminOfficeBearerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'custom_position' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string',
@@ -75,7 +76,17 @@ class AdminOfficeBearerController extends Controller
             'order' => 'nullable|integer',
         ]);
 
-        $data = $request->except('photo');
+        // Custom validation: either position or custom_position must be provided
+        if (empty($request->position) && empty($request->custom_position)) {
+            return back()->withErrors(['position' => 'Either select a position or enter a custom position.']);
+        }
+
+        $data = $request->except(['photo', 'custom_position']);
+        
+        // Use custom_position if provided, otherwise use position
+        if (!empty($request->custom_position)) {
+            $data['position'] = $request->custom_position;
+        }
         
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('office-bearers', 'public');
@@ -99,7 +110,8 @@ class AdminOfficeBearerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'custom_position' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string',
@@ -107,7 +119,17 @@ class AdminOfficeBearerController extends Controller
             'order' => 'nullable|integer',
         ]);
 
-        $data = $request->except('photo');
+        // Custom validation: either position or custom_position must be provided
+        if (empty($request->position) && empty($request->custom_position)) {
+            return back()->withErrors(['position' => 'Either select a position or enter a custom position.']);
+        }
+
+        $data = $request->except(['photo', 'custom_position']);
+        
+        // Use custom_position if provided, otherwise use position
+        if (!empty($request->custom_position)) {
+            $data['position'] = $request->custom_position;
+        }
         
         if ($request->hasFile('photo')) {
             // Delete old photo if exists

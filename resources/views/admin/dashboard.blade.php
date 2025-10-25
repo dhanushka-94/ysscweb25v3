@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <title>Admin Dashboard - YSSC Football Club</title>
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100">
-    @include('admin.partials.nav')
+@extends('layouts.admin')
 
-    <!-- Page Content -->
-    <div class="py-12">
+@section('title', 'Admin Dashboard')
+
+@section('content')
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
                 <h1 class="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
@@ -130,7 +119,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
-</html>
+@endsection
 

@@ -9,15 +9,28 @@ class GalleryImageController extends Controller
 {
     public function index()
     {
+        // Get all gallery categories with their latest image date for sorting
         $categories = GalleryImage::select('category')
             ->distinct()
             ->whereNotNull('category')
             ->pluck('category');
         
-        $images = GalleryImage::orderBy('order')
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
+        // Group images by category and sort by latest first
+        $groupedImages = GalleryImage::whereNotNull('category')
+            ->get()
+            ->groupBy('category')
+            ->map(function ($images) {
+                return $images->sortByDesc('created_at');
+            })
+            ->sortByDesc(function ($images) {
+                return $images->first()->created_at;
+            });
         
-        return view('gallery.index', compact('images', 'categories'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Gallery', 'url' => null]
+        ];
+        
+        return view('gallery.index', compact('groupedImages', 'categories', 'breadcrumbs'));
     }
 }

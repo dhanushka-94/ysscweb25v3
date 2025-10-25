@@ -8,7 +8,9 @@ class Fixture extends Model
 {
     protected $fillable = [
         'home_team',
+        'home_team_logo',
         'away_team',
+        'away_team_logo',
         'competition',
         'match_date',
         'venue',

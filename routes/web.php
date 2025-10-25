@@ -11,13 +11,10 @@ use App\Http\Controllers\OfficeBearerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AboutContentController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\MemberApplicationController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// SEO Routes
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // About Routes
 Route::prefix('about')->name('about.')->group(function () {
@@ -43,6 +40,16 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+
+// Member Application Routes
+Route::prefix('join')->name('member-application.')->group(function () {
+    Route::get('/', [MemberApplicationController::class, 'index'])->name('index');
+    Route::get('/application', [MemberApplicationController::class, 'create'])->name('create');
+    Route::post('/application', [MemberApplicationController::class, 'store'])->name('store');
+    Route::get('/application/{memberApplication}', [MemberApplicationController::class, 'show'])->name('show');
+    Route::get('/complete/{memberApplication}', [MemberApplicationController::class, 'complete'])->name('complete');
+    Route::get('/pdf/{memberApplication}', [MemberApplicationController::class, 'pdf'])->name('pdf');
+});
 
 // Authentication Routes
 Route::middleware('auth')->group(function () {

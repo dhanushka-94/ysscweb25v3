@@ -18,6 +18,7 @@ class HomeController extends Controller
             ->get();
             
         $latestNews = News::where('is_published', true)
+            ->whereNotNull('title')
             ->orderBy('published_at', 'desc')
             ->take(3)
             ->get();
@@ -25,17 +26,19 @@ class HomeController extends Controller
         $upcomingFixtures = Fixture::where('status', 'scheduled')
             ->where('match_date', '>=', now())
             ->orderBy('match_date', 'asc')
-            ->take(3)
+            ->take(2)
             ->get();
         
         $sponsors = Sponsor::where('is_active', true)
             ->orderBy('order')
             ->get();
         
-        $latestImages = GalleryImage::orderBy('created_at', 'desc')
+        $latestImages = GalleryImage::whereNotNull('image_path')
+            ->orderBy('created_at', 'desc')
             ->take(8)
             ->get();
 
+        // Homepage doesn't need breadcrumbs
         return view('home', compact('sliders', 'latestNews', 'upcomingFixtures', 'sponsors', 'latestImages'));
     }
 }

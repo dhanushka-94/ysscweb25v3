@@ -1,6 +1,13 @@
 @extends('layouts.frontend')
 
 @section('title', 'Our History - Young Silver Sports Club')
+@section('description', 'Discover the rich history of Young Silver Sports Club since 1967. From humble beginnings to becoming a premier football club in Wellawatte, Colombo.')
+@section('keywords', 'Young Silver Sports Club history, YSSC history, football club history, Colombo football, Wellawatte sports, Sri Lanka football history, 1967, football club founded')
+@section('og_title', 'Our History - Young Silver Sports Club')
+@section('og_description', 'Discover the rich history of Young Silver Sports Club since 1967. From humble beginnings to becoming a premier football club in Wellawatte, Colombo.')
+@section('og_type', 'article')
+@section('twitter_title', 'Our History - Young Silver Sports Club')
+@section('twitter_description', 'Discover the rich history of Young Silver Sports Club since 1967. From humble beginnings to becoming a premier football club in Wellawatte, Colombo.')
 
 @section('content')
     <!-- Page Header -->

@@ -15,6 +15,11 @@ class SponsorController extends Controller
             ->get()
             ->groupBy('tier');
         
-        return view('sponsors.index', compact('sponsors'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Sponsors', 'url' => null]
+        ];
+        
+        return view('sponsors.index', compact('sponsors', 'breadcrumbs'));
     }
 }
