@@ -1,4 +1,9 @@
-<?php $__env->startSection('title', 'Home - YSSC Football Club'); ?>
+<?php $__env->startSection('title', 'YSSC Football Club - Building Champions of Tomorrow | Young Silver Sports Club'); ?>
+<?php $__env->startSection('description', 'Young Silver Sports Club (YSSC) - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence, training, and competitive matches.'); ?>
+<?php $__env->startSection('keywords', 'YSSC, Young Silver Sports Club, football club Colombo, Wellawatte football, Sri Lanka football, youth football training, Cooray Park, football academy, sports club Colombo'); ?>
+<?php $__env->startSection('og_title', 'YSSC Football Club - Building Champions of Tomorrow'); ?>
+<?php $__env->startSection('og_description', 'Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence.'); ?>
+<?php $__env->startSection('og_type', 'website'); ?>
 
 <?php $__env->startSection('content'); ?>
     <!-- Hero Slider Section -->

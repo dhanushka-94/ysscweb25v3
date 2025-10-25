@@ -8,9 +8,94 @@
     
     <title><?php echo $__env->yieldContent('title', 'YSSC Football Club'); ?></title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<?php echo $__env->yieldContent('description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967. Join our community for football excellence.'); ?>">
+    <meta name="keywords" content="<?php echo $__env->yieldContent('keywords', 'YSSC, Young Silver Sports Club, football club, Colombo, Wellawatte, Sri Lanka football, youth football, sports club, football training, Cooray Park'); ?>">
+    <meta name="author" content="Young Silver Sports Club">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?php echo e(url()->current()); ?>">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<?php echo $__env->yieldContent('og_title', 'YSSC Football Club - Building Champions of Tomorrow'); ?>">
+    <meta property="og:description" content="<?php echo $__env->yieldContent('og_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.'); ?>">
+    <meta property="og:image" content="<?php echo $__env->yieldContent('og_image', asset('images/og-image.jpg')); ?>">
+    <meta property="og:url" content="<?php echo e(url()->current()); ?>">
+    <meta property="og:type" content="<?php echo $__env->yieldContent('og_type', 'website'); ?>">
+    <meta property="og:site_name" content="YSSC Football Club">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo $__env->yieldContent('twitter_title', 'YSSC Football Club - Building Champions of Tomorrow'); ?>">
+    <meta name="twitter:description" content="<?php echo $__env->yieldContent('twitter_description', 'Young Silver Sports Club - Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.'); ?>">
+    <meta name="twitter:image" content="<?php echo $__env->yieldContent('twitter_image', asset('images/og-image.jpg')); ?>">
+    <meta name="twitter:site" content="@YSSCFootball">
+    <meta name="twitter:creator" content="@YSSCFootball">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#facc15">
+    <meta name="msapplication-TileColor" content="#facc15">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="YSSC Football Club">
+    
+    <!-- Performance & SEO -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="YSSC Football Club">
+    <meta name="msapplication-tooltip" content="Young Silver Sports Club - Building Champions of Tomorrow">
+    <meta name="msapplication-starturl" content="/">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="<?php echo e(asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png'))); ?>" as="image">
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link rel="dns-prefetch" href="//www.google.com">
+    <link rel="dns-prefetch" href="//www.facebook.com">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
+        "@type": "SportsClub",
+        "name": "Young Silver Sports Club",
+        "alternateName": "YSSC",
+        "description": "Premier football club in Wellawatte, Colombo. Building champions of tomorrow since 1967.",
+        "url": "<?php echo e(url('/')); ?>",
+        "logo": "<?php echo e(asset('storage/' . \App\Models\Setting::get('site_logo', 'images/logo.png'))); ?>",
+        "foundingDate": "1967",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "27, Vincent Lane",
+            "addressLocality": "Wellawatte",
+            "addressRegion": "Colombo",
+            "postalCode": "06",
+            "addressCountry": "LK"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+94-714-813-981",
+            "contactType": "customer service",
+            "email": "info@youngsilversportsclub.com"
+        },
+        "sameAs": [
+            "https://www.facebook.com/YoungSilverSportsClub",
+            "https://www.youtube.com/@youngsilversportsclub",
+            "https://www.instagram.com/youngsilversportsclub"
+        ],
+        "sport": "Football",
+        "areaServed": {
+            "@type": "City",
+            "name": "Colombo"
+        }
+    }
+    </script>
     
     <!-- Styles -->
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
@@ -414,6 +499,4 @@
         });
     </script>
 </body>
-</html>
-
-<?php /**PATH C:\Users\Dhanushka\Desktop\YSSC\YSSCWEBv3\resources\views/layouts/frontend.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\Dhanushka\Desktop\YSSC\YSSCWEBv3\resources\views/layouts/frontend.blade.php ENDPATH**/ ?>
