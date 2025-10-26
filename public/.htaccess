@@ -76,11 +76,30 @@
 
 # PHP Upload Limits for Bulk Gallery Uploads
 <IfModule mod_php.c>
-    php_value upload_max_filesize 100M
-    php_value post_max_size 100M
-    php_value max_execution_time 600
-    php_value max_input_time 600
-    php_value memory_limit 512M
+    php_value upload_max_filesize 200M
+    php_value post_max_size 200M
+    php_value max_execution_time 900
+    php_value max_input_time 900
+    php_value memory_limit 1024M
+    php_value max_file_uploads 50
+</IfModule>
+
+# Alternative PHP configuration for different server setups
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 200M
+    php_value post_max_size 200M
+    php_value max_execution_time 900
+    php_value max_input_time 900
+    php_value memory_limit 1024M
+    php_value max_file_uploads 50
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 200M
+    php_value post_max_size 200M
+    php_value max_execution_time 900
+    php_value max_input_time 900
+    php_value memory_limit 1024M
     php_value max_file_uploads 50
 </IfModule>
 

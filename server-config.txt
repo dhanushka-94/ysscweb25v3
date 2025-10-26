@@ -1,0 +1,43 @@
+# Server Configuration for YSSC Football Club Website
+# Please apply these settings to your server configuration
+
+## PHP Configuration (php.ini)
+upload_max_filesize = 200M
+post_max_size = 200M
+max_file_uploads = 50
+max_execution_time = 900
+max_input_time = 900
+memory_limit = 1024M
+
+## Apache Configuration (.htaccess)
+# Already included in public/.htaccess file
+
+## Nginx Configuration (if using Nginx)
+# Add to your nginx.conf or site configuration:
+client_max_body_size 200M;
+client_body_timeout 900s;
+client_header_timeout 900s;
+
+## Additional Server Settings
+# If using cPanel or similar hosting control panel:
+# 1. Go to PHP Configuration
+# 2. Set upload_max_filesize to 200M
+# 3. Set post_max_size to 200M
+# 4. Set max_execution_time to 900
+# 5. Set memory_limit to 1024M
+
+## Laravel Configuration
+# The application is already configured to handle these limits
+# No additional Laravel configuration needed
+
+## Troubleshooting
+# If uploads still fail:
+# 1. Check server error logs
+# 2. Verify PHP configuration is applied
+# 3. Check if hosting provider has additional limits
+# 4. Contact hosting provider if needed
+
+## Current Error Details
+# Content-Length: 15,212,356 bytes (15.2 MB)
+# Error: PostTooLargeException - Content Too Large
+# Required: At least 200M post_max_size
