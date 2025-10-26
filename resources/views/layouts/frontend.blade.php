@@ -668,6 +668,15 @@
         </div>
     @endif
 
+    <!-- News Bar Toggle Button (shown when news bar is hidden) -->
+    <div id="news-bar-toggle" class="fixed top-4 right-4 z-50 hidden">
+        <button class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-2 rounded-full shadow-lg transition-all duration-200" title="Show Latest News">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+            </svg>
+        </button>
+    </div>
+
     <!-- Breadcrumb Navigation -->
     @if(isset($breadcrumbs) && count($breadcrumbs) > 0)
         <x-breadcrumb :items="$breadcrumbs" />
@@ -959,25 +968,82 @@
             const newsBar = document.querySelector('.sticky-news-bar');
             const closeButton = document.getElementById('close-news-bar');
             const newsTicker = document.querySelector('.news-ticker');
+            const toggleButton = document.getElementById('news-bar-toggle');
             
             if (newsBar && closeButton) {
-                // Close news bar functionality
+                // Toggle news bar functionality
                 closeButton.addEventListener('click', function() {
-                    newsBar.classList.add('hidden');
-                    
-                    // Store preference in localStorage
-                    localStorage.setItem('newsBarClosed', 'true');
-                    
-                    // Remove from DOM after animation
-                    setTimeout(() => {
-                        newsBar.style.display = 'none';
-                    }, 300);
+                    if (newsBar.classList.contains('hidden')) {
+                        // Show news bar
+                        newsBar.classList.remove('hidden');
+                        newsBar.style.display = 'block';
+                        localStorage.setItem('newsBarClosed', 'false');
+                        
+                        // Update close button icon to show it can be closed
+                        const icon = closeButton.querySelector('svg path');
+                        if (icon) {
+                            icon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                        }
+                    } else {
+                        // Hide news bar
+                        newsBar.classList.add('hidden');
+                        localStorage.setItem('newsBarClosed', 'true');
+                        
+                        // Update close button icon to show it can be opened
+                        const icon = closeButton.querySelector('svg path');
+                        if (icon) {
+                            icon.setAttribute('d', 'M12 4v16m8-8H4');
+                        }
+                        
+                        // Remove from DOM after animation
+                        setTimeout(() => {
+                            newsBar.style.display = 'none';
+                        }, 300);
+                        
+                        // Show toggle button
+                        if (toggleButton) {
+                            toggleButton.classList.remove('hidden');
+                        }
+                    }
                 });
                 
                 // Check if user previously closed the news bar
                 if (localStorage.getItem('newsBarClosed') === 'true') {
                     newsBar.style.display = 'none';
+                    newsBar.classList.add('hidden');
+                    
+                    // Update close button icon to show it can be opened
+                    const icon = closeButton.querySelector('svg path');
+                    if (icon) {
+                        icon.setAttribute('d', 'M12 4v16m8-8H4');
+                    }
+                    
+                    // Show toggle button
+                    if (toggleButton) {
+                        toggleButton.classList.remove('hidden');
+                    }
                 }
+            }
+            
+            // Toggle button functionality
+            if (toggleButton) {
+                toggleButton.addEventListener('click', function() {
+                    if (newsBar) {
+                        // Show news bar
+                        newsBar.classList.remove('hidden');
+                        newsBar.style.display = 'block';
+                        localStorage.setItem('newsBarClosed', 'false');
+                        
+                        // Hide toggle button
+                        toggleButton.classList.add('hidden');
+                        
+                        // Update close button icon to show it can be closed
+                        const icon = closeButton.querySelector('svg path');
+                        if (icon) {
+                            icon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                        }
+                    }
+                });
             }
             
             // News ticker hover pause functionality
