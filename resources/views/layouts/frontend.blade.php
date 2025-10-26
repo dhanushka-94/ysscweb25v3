@@ -508,6 +508,9 @@
         </nav>
     </header>
 
+    <!-- News Ticker Bar -->
+    <x-news-ticker />
+
     <!-- Breadcrumb Navigation -->
     @if(isset($breadcrumbs) && count($breadcrumbs) > 0)
         <x-breadcrumb :items="$breadcrumbs" />
