@@ -35,7 +35,7 @@ class AdminGalleryController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB limit
             'category' => 'nullable|string|max:255',
             'order' => 'required|integer|min:0',
             'is_featured' => 'boolean',
@@ -123,8 +123,8 @@ class AdminGalleryController extends Controller
     public function storeBulk(Request $request)
     {
         $request->validate([
-            'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'required|array|min:1|max:20',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB limit
             'title_prefix' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',

@@ -67,7 +67,7 @@
                                     <p class="mt-2 text-sm text-gray-600">
                                         <span class="font-semibold text-yellow-600 hover:text-yellow-500">Click to upload</span> or drag and drop
                                     </p>
-                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 2MB each</p>
+                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 5MB each (Max 20 files, 50MB total)</p>
                                 </label>
                             </div>
                             @error('images')
@@ -147,9 +147,24 @@
                             </div>
                         </div>
 
+                        <!-- Progress Bar -->
+                        <div id="progressContainer" class="hidden">
+                            <div class="bg-gray-200 rounded-full h-2.5">
+                                <div id="progressBar" class="bg-yellow-400 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <p id="progressText" class="text-sm text-gray-600 mt-2">Uploading...</p>
+                        </div>
+
                         <div class="flex space-x-4">
                             <button type="submit" id="uploadButton" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                                Upload Images
+                                <span id="uploadText">Upload Images</span>
+                                <span id="uploadSpinner" class="hidden">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Uploading...
+                                </span>
                             </button>
                             <a href="{{ route('admin.gallery.index') }}" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300">
                                 Cancel
@@ -175,13 +190,67 @@
             
             previewContainer.innerHTML = '';
             
-            if (files.length > 0) {
+            // Validate files
+            let validFiles = [];
+            let totalSize = 0;
+            let errors = [];
+            
+            files.forEach((file, index) => {
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    errors.push(`${file.name}: Not an image file`);
+                    return;
+                }
+                
+                // Check file size (5MB limit per file)
+                if (file.size > 5 * 1024 * 1024) {
+                    errors.push(`${file.name}: File too large (max 5MB)`);
+                    return;
+                }
+                
+                // Check total size (50MB limit)
+                totalSize += file.size;
+                if (totalSize > 50 * 1024 * 1024) {
+                    errors.push(`Total size exceeds 50MB limit`);
+                    return;
+                }
+                
+                // Check file count (20 files limit)
+                if (validFiles.length >= 20) {
+                    errors.push(`Maximum 20 files allowed`);
+                    return;
+                }
+                
+                validFiles.push(file);
+            });
+            
+            // Show errors if any
+            if (errors.length > 0) {
+                alert('Upload errors:\n' + errors.join('\n'));
+                // Reset input
+                event.target.value = '';
+                selectedFiles = [];
+                previewContainer.classList.add('hidden');
+                countElement.classList.add('hidden');
+                uploadButton.disabled = true;
+                return;
+            }
+            
+            selectedFiles = validFiles;
+            
+            if (validFiles.length > 0) {
                 previewContainer.classList.remove('hidden');
                 countElement.classList.remove('hidden');
-                countNumber.textContent = files.length;
+                countNumber.textContent = validFiles.length;
                 uploadButton.disabled = false;
                 
-                files.forEach((file, index) => {
+                // Show total size
+                const sizeText = document.createElement('div');
+                sizeText.className = 'text-xs text-gray-500 mt-1';
+                sizeText.textContent = `Total size: ${(totalSize / 1024 / 1024).toFixed(2)} MB`;
+                countElement.appendChild(sizeText);
+                
+                validFiles.forEach((file, index) => {
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
@@ -191,6 +260,7 @@
                             <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded-lg">
                             <div class="remove-image" onclick="removeImage(${index})" title="Remove image">×</div>
                             <p class="text-xs text-gray-600 mt-1 truncate">${file.name}</p>
+                            <p class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
                         `;
                         previewContainer.appendChild(preview);
                     };
@@ -259,6 +329,38 @@
 
         // Disable upload button initially
         document.getElementById('uploadButton').disabled = true;
+
+        // Form submission with progress
+        document.getElementById('bulkUploadForm').addEventListener('submit', function(e) {
+            const uploadButton = document.getElementById('uploadButton');
+            const uploadText = document.getElementById('uploadText');
+            const uploadSpinner = document.getElementById('uploadSpinner');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            // Show progress
+            uploadText.classList.add('hidden');
+            uploadSpinner.classList.remove('hidden');
+            progressContainer.classList.remove('hidden');
+            uploadButton.disabled = true;
+            
+            // Simulate progress (since we can't get real progress from form submission)
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = `Uploading... ${Math.round(progress)}%`;
+            }, 500);
+            
+            // Clear interval after form submission
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Processing images...';
+            }, 3000);
+        });
     </script>
 </body>
 </html>
