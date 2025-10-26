@@ -389,7 +389,7 @@
             }
 
             .news-item a:hover {
-                text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+                text-shadow: 0 0 8px rgba(234, 179, 8, 0.5);
             }
 
             /* Breaking News Label Animation */
@@ -625,15 +625,15 @@
     @endphp
     
     @if($latestNews->count() > 0)
-        <div class="sticky-news-bar bg-gradient-to-r from-red-600 to-red-700 text-white py-2 shadow-lg sticky z-40" style="top: 0;">
+        <div class="sticky-news-bar bg-gradient-to-r from-yellow-200 to-yellow-300 text-gray-900 py-2 shadow-lg sticky z-40" style="top: 0;">
             <div class="container mx-auto px-4">
                 <div class="flex items-center">
                     <!-- Breaking News Label -->
-                    <div class="flex items-center bg-red-800 px-3 py-1 rounded-full mr-4 flex-shrink-0">
-                        <svg class="w-4 h-4 mr-2 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-center bg-yellow-600 px-3 py-1 rounded-full mr-4 flex-shrink-0">
+                        <svg class="w-4 h-4 mr-2 animate-pulse text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="text-sm font-bold uppercase tracking-wide">Breaking News</span>
+                        <span class="text-sm font-bold uppercase tracking-wide text-white">Latest News</span>
                     </div>
                     
                     <!-- News Ticker -->
@@ -641,16 +641,16 @@
                         <div class="news-ticker flex animate-scroll">
                             @foreach($latestNews as $index => $news)
                                 <div class="news-item flex-shrink-0 mr-8">
-                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-200 transition-colors duration-200">
-                                        <span class="text-sm font-medium">{{ $news->title }}</span>
+                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-600 transition-colors duration-200">
+                                        <span class="text-sm font-medium text-gray-900">{{ $news->title }}</span>
                                     </a>
                                 </div>
                             @endforeach
                             <!-- Duplicate for seamless loop -->
                             @foreach($latestNews as $index => $news)
                                 <div class="news-item flex-shrink-0 mr-8">
-                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-200 transition-colors duration-200">
-                                        <span class="text-sm font-medium">{{ $news->title }}</span>
+                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-600 transition-colors duration-200">
+                                        <span class="text-sm font-medium text-gray-900">{{ $news->title }}</span>
                                     </a>
                                 </div>
                             @endforeach
@@ -658,7 +658,7 @@
                     </div>
                     
                     <!-- Close Button -->
-                    <button id="close-news-bar" class="ml-4 text-white hover:text-yellow-200 transition-colors duration-200 flex-shrink-0" title="Close news bar">
+                    <button id="close-news-bar" class="ml-4 text-gray-900 hover:text-yellow-600 transition-colors duration-200 flex-shrink-0" title="Close news bar">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
