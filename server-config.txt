@@ -1,43 +1,86 @@
 # Server Configuration for YSSC Football Club Website
-# Please apply these settings to your server configuration
+# URGENT: Please apply these settings to your server configuration
 
-## PHP Configuration (php.ini)
-upload_max_filesize = 200M
-post_max_size = 200M
+## Current Error Details
+# Content-Length: 21,645,607 bytes (21.6 MB)
+# Error: PostTooLargeException - Content Too Large
+# Server: uat.youngsilversportsclub.com
+# Required: At least 500M post_max_size
+
+## PHP Configuration (php.ini) - UPDATED
+upload_max_filesize = 500M
+post_max_size = 500M
 max_file_uploads = 50
-max_execution_time = 900
-max_input_time = 900
-memory_limit = 1024M
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+max_input_vars = 3000
 
 ## Apache Configuration (.htaccess)
-# Already included in public/.htaccess file
+# Already included in public/.htaccess file with multiple methods
 
 ## Nginx Configuration (if using Nginx)
 # Add to your nginx.conf or site configuration:
-client_max_body_size 200M;
-client_body_timeout 900s;
-client_header_timeout 900s;
+client_max_body_size 500M;
+client_body_timeout 1800s;
+client_header_timeout 1800s;
+proxy_read_timeout 1800s;
+proxy_connect_timeout 1800s;
+proxy_send_timeout 1800s;
 
-## Additional Server Settings
-# If using cPanel or similar hosting control panel:
-# 1. Go to PHP Configuration
-# 2. Set upload_max_filesize to 200M
-# 3. Set post_max_size to 200M
-# 4. Set max_execution_time to 900
-# 5. Set memory_limit to 1024M
+## cPanel Configuration Steps
+# 1. Login to cPanel
+# 2. Go to "PHP Configuration" or "Select PHP Version"
+# 3. Click "Options" or "Extensions"
+# 4. Set the following values:
+#    - upload_max_filesize: 500M
+#    - post_max_size: 500M
+#    - max_execution_time: 1800
+#    - max_input_time: 1800
+#    - memory_limit: 2048M
+#    - max_input_vars: 3000
+# 5. Save changes
+# 6. Restart Apache if possible
+
+## Plesk Configuration Steps
+# 1. Login to Plesk
+# 2. Go to "Hosting & DNS" > "PHP Settings"
+# 3. Set the following values:
+#    - upload_max_filesize: 500M
+#    - post_max_size: 500M
+#    - max_execution_time: 1800
+#    - max_input_time: 1800
+#    - memory_limit: 2048M
+#    - max_input_vars: 3000
+# 4. Save changes
+
+## Direct Server Configuration
+# If you have direct server access:
+# 1. Edit /etc/php/8.3/apache2/php.ini (or similar path)
+# 2. Update the values above
+# 3. Restart Apache: sudo systemctl restart apache2
+# 4. Or restart Nginx: sudo systemctl restart nginx
 
 ## Laravel Configuration
 # The application is already configured to handle these limits
 # No additional Laravel configuration needed
 
-## Troubleshooting
-# If uploads still fail:
-# 1. Check server error logs
+## Troubleshooting Steps
+# 1. Check current settings: https://uat.youngsilversportsclub.com/php-info.php
 # 2. Verify PHP configuration is applied
-# 3. Check if hosting provider has additional limits
-# 4. Contact hosting provider if needed
+# 3. Check server error logs
+# 4. Test with smaller uploads first
+# 5. Contact hosting provider if needed
 
-## Current Error Details
-# Content-Length: 15,212,356 bytes (15.2 MB)
-# Error: PostTooLargeException - Content Too Large
-# Required: At least 200M post_max_size
+## Common Issues
+# 1. .htaccess not working: Use hosting control panel
+# 2. Server-level limits: Contact hosting provider
+# 3. Nginx limits: Add client_max_body_size
+# 4. PHP-FPM limits: Check php-fpm configuration
+
+## Emergency Contact
+# If uploads still fail after applying these settings:
+# 1. Contact hosting provider support
+# 2. Provide this configuration file
+# 3. Mention the PostTooLargeException error
+# 4. Request server-level limit increases

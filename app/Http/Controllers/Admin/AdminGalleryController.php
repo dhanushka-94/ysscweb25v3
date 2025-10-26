@@ -120,6 +120,11 @@ class AdminGalleryController extends Controller
         return view('admin.gallery.bulk-upload');
     }
 
+    public function chunkedUpload()
+    {
+        return view('admin.gallery.chunked-upload');
+    }
+
     public function storeBulk(Request $request)
     {
         $request->validate([
@@ -223,5 +228,65 @@ class AdminGalleryController extends Controller
 
         return redirect()->route('admin.gallery.index')
             ->with('success', "Successfully deleted {$deletedCount} images from gallery.");
+    }
+
+    public function chunkedStore(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB limit per file
+            'title_prefix' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'is_featured' => 'boolean',
+        ]);
+
+        $titlePrefix = $request->input('title_prefix');
+        $category = $request->input('category');
+        $description = $request->input('description');
+        $isFeatured = $request->has('is_featured');
+        $order = GalleryImage::max('order') ?? 0;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $slug = \Str::slug($filename);
+            $extension = $image->getClientOriginalExtension();
+            $finalFilename = $slug . '_' . time() . '.' . $extension;
+            
+            $imagePath = $image->storeAs('gallery', $finalFilename, 'public');
+            
+            // Create unique title for each image
+            $title = $titlePrefix ? $titlePrefix . ' - ' . $filename : $filename;
+            
+            // Check if image with same title exists and replace it
+            $existingImage = GalleryImage::where('title', $title)->first();
+            if ($existingImage) {
+                // Delete old file
+                if (Storage::disk('public')->exists($existingImage->image_path)) {
+                    Storage::disk('public')->delete($existingImage->image_path);
+                }
+                
+                // Update existing record
+                $existingImage->update([
+                    'image_path' => $imagePath,
+                    'category' => $category,
+                    'description' => $description,
+                    'is_featured' => $isFeatured,
+                    'order' => ++$order,
+                ]);
+            } else {
+                // Create new record
+                GalleryImage::create([
+                    'title' => $title,
+                    'image_path' => $imagePath,
+                    'category' => $category,
+                    'description' => $description,
+                    'is_featured' => $isFeatured,
+                    'order' => ++$order,
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

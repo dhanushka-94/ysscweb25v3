@@ -36,6 +36,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Gallery Management
     Route::get('gallery/bulk-upload/form', [AdminGalleryController::class, 'bulkUpload'])->name('gallery.bulk-upload');
     Route::post('gallery/bulk-upload/store', [AdminGalleryController::class, 'storeBulk'])->name('gallery.bulk-store');
+    Route::get('gallery/chunked-upload/form', [AdminGalleryController::class, 'chunkedUpload'])->name('gallery.chunked-upload');
+    Route::post('gallery/chunked-upload/store', [AdminGalleryController::class, 'chunkedStore'])->name('gallery.chunked-store');
     Route::post('gallery/bulk-delete', [AdminGalleryController::class, 'bulkDelete'])->name('gallery.bulk-delete');
     Route::resource('gallery', AdminGalleryController::class);
     
