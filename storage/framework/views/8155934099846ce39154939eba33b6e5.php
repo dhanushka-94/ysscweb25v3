@@ -1,12 +1,12 @@
-@php
+<?php
     $latestNews = \App\Models\News::where('is_published', true)
         ->whereNotNull('title')
         ->orderBy('published_at', 'desc')
         ->take(10)
         ->get();
-@endphp
+?>
 
-@if($latestNews->count() > 0)
+<?php if($latestNews->count() > 0): ?>
     <!-- News Ticker Bar -->
     <div class="bg-gradient-to-r from-red-600 to-red-700 text-white py-2 relative overflow-hidden shadow-lg">
         <div class="container mx-auto px-4">
@@ -25,28 +25,30 @@
                 <div class="flex-1 overflow-hidden">
                     <div class="news-ticker-wrapper">
                         <div class="news-ticker-content">
-                            @foreach($latestNews as $index => $news)
+                            <?php $__currentLoopData = $latestNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <span class="news-item">
-                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-300 transition-colors duration-200">
-                                        {{ $news->title }}
+                                    <a href="<?php echo e(route('news.show', $news->slug)); ?>" class="hover:text-yellow-300 transition-colors duration-200">
+                                        <?php echo e($news->title); ?>
+
                                     </a>
-                                    @if($index < $latestNews->count() - 1)
+                                    <?php if($index < $latestNews->count() - 1): ?>
                                         <span class="mx-4 text-yellow-300">•</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             
                             <!-- Duplicate content for seamless loop -->
-                            @foreach($latestNews as $index => $news)
+                            <?php $__currentLoopData = $latestNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <span class="news-item">
-                                    <a href="{{ route('news.show', $news->slug) }}" class="hover:text-yellow-300 transition-colors duration-200">
-                                        {{ $news->title }}
+                                    <a href="<?php echo e(route('news.show', $news->slug)); ?>" class="hover:text-yellow-300 transition-colors duration-200">
+                                        <?php echo e($news->title); ?>
+
                                     </a>
-                                    @if($index < $latestNews->count() - 1)
+                                    <?php if($index < $latestNews->count() - 1): ?>
                                         <span class="mx-4 text-yellow-300">•</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </div>
@@ -64,7 +66,7 @@
                     </button>
                     
                     <!-- View All News Link -->
-                    <a href="{{ route('news') }}" class="text-yellow-300 hover:text-white text-sm font-medium transition-colors duration-200">
+                    <a href="<?php echo e(route('news')); ?>" class="text-yellow-300 hover:text-white text-sm font-medium transition-colors duration-200">
                         View All →
                     </a>
                 </div>
@@ -174,4 +176,5 @@
             }
         });
     </script>
-@endif
+<?php endif; ?>
+<?php /**PATH C:\Users\Dhanushka\Desktop\YSSC\YSSCWEBv3\resources\views/components/news-ticker.blade.php ENDPATH**/ ?>

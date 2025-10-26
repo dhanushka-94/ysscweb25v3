@@ -348,6 +348,113 @@
                     font-size: 18px;
                 }
             }
+
+            /* Sticky News Bar Styles */
+            .sticky-news-bar {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                margin-top: 0;
+            }
+
+            /* News Ticker Animation */
+            .news-ticker {
+                animation: scroll-news 30s linear infinite;
+                white-space: nowrap;
+            }
+
+            .news-ticker:hover {
+                animation-play-state: paused;
+            }
+
+            @keyframes scroll-news {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            /* News Item Styling */
+            .news-item {
+                display: inline-block;
+                margin-right: 2rem;
+            }
+
+            .news-item a {
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            .news-item a:hover {
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            }
+
+            /* Breaking News Label Animation */
+            .sticky-news-bar .animate-pulse {
+                animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            /* Responsive News Bar */
+            @media (max-width: 768px) {
+                .sticky-news-bar {
+                    padding: 0.5rem 0;
+                }
+                
+                .sticky-news-bar .container {
+                    padding: 0 1rem;
+                }
+                
+                .sticky-news-bar .flex {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.5rem;
+                }
+                
+                .sticky-news-bar .news-ticker-container {
+                    width: 100%;
+                    order: 2;
+                }
+                
+                .sticky-news-bar .flex-shrink-0 {
+                    order: 1;
+                }
+                
+                .news-ticker {
+                    animation-duration: 20s;
+                }
+                
+                .news-item {
+                    margin-right: 1.5rem;
+                }
+            }
+
+            @media (max-width: 640px) {
+                .sticky-news-bar .text-sm {
+                    font-size: 0.75rem;
+                }
+                
+                .news-ticker {
+                    animation-duration: 15s;
+                }
+                
+                .news-item {
+                    margin-right: 1rem;
+                }
+            }
+
+            /* News Bar Hide Animation */
+            .sticky-news-bar.hidden {
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .sticky-news-bar {
+                transition: all 0.3s ease;
+            }
         </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 via-white to-yellow-50 text-gray-900 relative">
@@ -378,7 +485,7 @@
     <!-- Main Content Wrapper -->
     <div class="relative z-10">
     <!-- Header & Navigation -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50" id="main-header">
         <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 h-1"></div>
         <nav class="container mx-auto px-4 py-6">
             <div class="flex items-center justify-between">
@@ -507,6 +614,59 @@
             </div>
         </nav>
     </header>
+
+    <!-- Sticky News Bar -->
+    <?php
+        $latestNews = \App\Models\News::where('is_published', true)
+            ->whereNotNull('title')
+            ->orderBy('published_at', 'desc')
+            ->take(5)
+            ->get();
+    ?>
+    
+    <?php if($latestNews->count() > 0): ?>
+        <div class="sticky-news-bar bg-gradient-to-r from-red-600 to-red-700 text-white py-2 shadow-lg sticky z-40" style="top: 0;">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center">
+                    <!-- Breaking News Label -->
+                    <div class="flex items-center bg-red-800 px-3 py-1 rounded-full mr-4 flex-shrink-0">
+                        <svg class="w-4 h-4 mr-2 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-sm font-bold uppercase tracking-wide">Breaking News</span>
+                    </div>
+                    
+                    <!-- News Ticker -->
+                    <div class="news-ticker-container flex-1 overflow-hidden">
+                        <div class="news-ticker flex animate-scroll">
+                            <?php $__currentLoopData = $latestNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="news-item flex-shrink-0 mr-8">
+                                    <a href="<?php echo e(route('news.show', $news->slug)); ?>" class="hover:text-yellow-200 transition-colors duration-200">
+                                        <span class="text-sm font-medium"><?php echo e($news->title); ?></span>
+                                    </a>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <!-- Duplicate for seamless loop -->
+                            <?php $__currentLoopData = $latestNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="news-item flex-shrink-0 mr-8">
+                                    <a href="<?php echo e(route('news.show', $news->slug)); ?>" class="hover:text-yellow-200 transition-colors duration-200">
+                                        <span class="text-sm font-medium"><?php echo e($news->title); ?></span>
+                                    </a>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    </div>
+                    
+                    <!-- Close Button -->
+                    <button id="close-news-bar" class="ml-4 text-white hover:text-yellow-200 transition-colors duration-200 flex-shrink-0" title="Close news bar">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <!-- Breadcrumb Navigation -->
     <?php if(isset($breadcrumbs) && count($breadcrumbs) > 0): ?>
@@ -811,6 +971,74 @@
                     }
                 });
             }
+        });
+
+        // Sticky News Bar Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsBar = document.querySelector('.sticky-news-bar');
+            const closeButton = document.getElementById('close-news-bar');
+            const newsTicker = document.querySelector('.news-ticker');
+            
+            if (newsBar && closeButton) {
+                // Close news bar functionality
+                closeButton.addEventListener('click', function() {
+                    newsBar.classList.add('hidden');
+                    
+                    // Store preference in localStorage
+                    localStorage.setItem('newsBarClosed', 'true');
+                    
+                    // Remove from DOM after animation
+                    setTimeout(() => {
+                        newsBar.style.display = 'none';
+                    }, 300);
+                });
+                
+                // Check if user previously closed the news bar
+                if (localStorage.getItem('newsBarClosed') === 'true') {
+                    newsBar.style.display = 'none';
+                }
+            }
+            
+            // News ticker hover pause functionality
+            if (newsTicker) {
+                newsTicker.addEventListener('mouseenter', function() {
+                    this.style.animationPlayState = 'paused';
+                });
+                
+                newsTicker.addEventListener('mouseleave', function() {
+                    this.style.animationPlayState = 'running';
+                });
+                
+                // Restart animation if it stops
+                newsTicker.addEventListener('animationend', function() {
+                    this.style.animation = 'none';
+                    setTimeout(() => {
+                        this.style.animation = 'scroll-news 30s linear infinite';
+                    }, 10);
+                });
+            }
+            
+            // Auto-hide news bar on scroll down (optional)
+            let lastScrollTop = 0;
+            let scrollTimeout;
+            
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (newsBar && !newsBar.classList.contains('hidden')) {
+                        // Hide on scroll down, show on scroll up
+                        if (scrollTop > lastScrollTop && scrollTop > 100) {
+                            newsBar.style.transform = 'translateY(-100%)';
+                        } else {
+                            newsBar.style.transform = 'translateY(0)';
+                        }
+                    }
+                    
+                    lastScrollTop = scrollTop;
+                }, 10);
+            });
         });
     </script>
     
