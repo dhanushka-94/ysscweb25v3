@@ -123,8 +123,8 @@ class AdminGalleryController extends Controller
     public function storeBulk(Request $request)
     {
         $request->validate([
-            'images' => 'required|array|min:1|max:20',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB limit
+            'images' => 'required|array|min:1|max:50',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB limit per file
             'title_prefix' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',

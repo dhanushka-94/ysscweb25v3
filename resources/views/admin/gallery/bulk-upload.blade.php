@@ -67,7 +67,7 @@
                                     <p class="mt-2 text-sm text-gray-600">
                                         <span class="font-semibold text-yellow-600 hover:text-yellow-500">Click to upload</span> or drag and drop
                                     </p>
-                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 5MB each (Max 20 files, 50MB total)</p>
+                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 5MB each (Max 50 files, 100MB total)</p>
                                 </label>
                             </div>
                             @error('images')
@@ -208,16 +208,16 @@
                     return;
                 }
                 
-                // Check total size (50MB limit)
+                // Check total size (100MB limit)
                 totalSize += file.size;
-                if (totalSize > 50 * 1024 * 1024) {
-                    errors.push(`Total size exceeds 50MB limit`);
+                if (totalSize > 100 * 1024 * 1024) {
+                    errors.push(`Total size exceeds 100MB limit`);
                     return;
                 }
                 
-                // Check file count (20 files limit)
-                if (validFiles.length >= 20) {
-                    errors.push(`Maximum 20 files allowed`);
+                // Check file count (50 files limit)
+                if (validFiles.length >= 50) {
+                    errors.push(`Maximum 50 files allowed`);
                     return;
                 }
                 
