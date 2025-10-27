@@ -59,10 +59,10 @@ class ImageWatermarkService
             }
 
             // Calculate watermark position (bottom-right corner)
-            $watermarkWidth = min($width * 0.25, 300);
-            $watermarkHeight = 80;
-            $x = $width - $watermarkWidth - 20;
-            $y = $height - $watermarkHeight - 20;
+            $watermarkWidth = min($width * 0.3, 350); // Max 350px or 30% of image width
+            $watermarkHeight = 100; // Increased height for better text spacing
+            $x = $width - $watermarkWidth - 15;
+            $y = $height - $watermarkHeight - 15;
 
             // Ensure watermark doesn't go outside image bounds
             $x = max(10, $x);
@@ -70,38 +70,58 @@ class ImageWatermarkService
 
             // Create semi-transparent overlay
             $overlay = imagecreatetruecolor($watermarkWidth, $watermarkHeight);
-            $black = imagecolorallocate($overlay, 0, 0, 0);
             $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 100); // Semi-transparent
             imagefill($overlay, 0, 0, $transparent);
 
-            // Add logo if available
+            // Add logo if available (without black background)
             if ($siteLogo && Storage::disk('public')->exists($siteLogo)) {
                 $logoPath = Storage::disk('public')->path($siteLogo);
                 $logoInfo = getimagesize($logoPath);
                 if ($logoInfo) {
-                    $logoWidth = min(40, $watermarkWidth * 0.2);
+                    $logoWidth = min(50, $watermarkWidth * 0.25);
                     $logoHeight = $logoWidth;
                     
-                    // Resize and place logo
+                    // Create logo with transparent background
                     $logo = imagecreatefromstring(file_get_contents($logoPath));
                     if ($logo) {
+                        // Create transparent background for logo
+                        $logoBg = imagecreatetruecolor($logoWidth + 10, $logoHeight + 10);
+                        $transparentBg = imagecolorallocatealpha($logoBg, 0, 0, 0, 127);
+                        imagefill($logoBg, 0, 0, $transparentBg);
+                        imagecolortransparent($logoBg, $transparentBg);
+                        
+                        // Resize logo maintaining aspect ratio
                         $resizedLogo = imagecreatetruecolor($logoWidth, $logoHeight);
+                        imagealphablending($resizedLogo, false);
+                        imagesavealpha($resizedLogo, true);
+                        $transparentColor = imagecolorallocatealpha($resizedLogo, 0, 0, 0, 127);
+                        imagefill($resizedLogo, 0, 0, $transparentColor);
+                        imagecolortransparent($resizedLogo, $transparentColor);
+                        
                         imagecopyresampled($resizedLogo, $logo, 0, 0, 0, 0, $logoWidth, $logoHeight, $logoInfo[0], $logoInfo[1]);
+                        
+                        // Place logo on overlay with transparent background
                         imagecopy($overlay, $resizedLogo, 10, 10, 0, 0, $logoWidth, $logoHeight);
+                        
                         imagedestroy($logo);
                         imagedestroy($resizedLogo);
+                        imagedestroy($logoBg);
                     }
                 }
             }
 
-            // Add text
+            // Add text with better fonts and positioning
             $white = imagecolorallocate($overlay, 255, 255, 255);
             $yellow = imagecolorallocate($overlay, 255, 255, 0);
+            $lightGray = imagecolorallocate($overlay, 200, 200, 200);
             
-            // Add club name
-            imagestring($overlay, 3, 10, 50, $siteName, $white);
-            // Add tagline
-            imagestring($overlay, 2, 10, 65, $siteTagline, $yellow);
+            // Add club name with larger font (positioned after logo)
+            $logoHeight = 50; // Approximate logo height
+            imagestring($overlay, 5, 15, $logoHeight + 10, $siteName, $white);
+            // Add tagline with medium font
+            imagestring($overlay, 4, 15, $logoHeight + 30, $siteTagline, $yellow);
+            // Add website with smaller font
+            imagestring($overlay, 3, 15, $logoHeight + 50, $website, $lightGray);
 
             // Merge overlay with main image
             imagecopy($image, $overlay, $x, $y, 0, 0, $watermarkWidth, $watermarkHeight);
@@ -200,34 +220,92 @@ class ImageWatermarkService
                 return false;
             }
 
-            // Load the image
-            $image = $this->manager->read($imagePath);
-            $width = $image->width();
-            $height = $image->height();
+            // Get image info
+            $imageInfo = getimagesize($imagePath);
+            if (!$imageInfo) {
+                return false;
+            }
+
+            $width = $imageInfo[0];
+            $height = $imageInfo[1];
+            $type = $imageInfo[2];
+
+            // Create image resource based on type
+            switch ($type) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($imagePath);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($imagePath);
+                    break;
+                case IMAGETYPE_GIF:
+                    $image = imagecreatefromgif($imagePath);
+                    break;
+                default:
+                    return false;
+            }
+
+            if (!$image) {
+                return false;
+            }
 
             // Load logo
             $logoPath = Storage::disk('public')->path($siteLogo);
-            $logo = $this->manager->read($logoPath);
+            $logoInfo = getimagesize($logoPath);
+            if (!$logoInfo) {
+                return false;
+            }
+
+            $logoSize = min($width * 0.08, $height * 0.08, 60);
             
-            // Resize logo to appropriate size
-            $logoSize = min($width * 0.1, $height * 0.1, 80);
-            $logo->resize($logoSize, $logoSize);
-
-            // Add semi-transparent background to logo
-            $logoBg = $this->manager->create($logoSize + 20, $logoSize + 20);
-            $logoBg->fill('rgba(0, 0, 0, 0.5)');
-            $logoBg->place($logo, 'center');
-
-            // Place in bottom-right corner
-            $x = $width - $logoSize - 30;
-            $y = $height - $logoSize - 30;
-
-            $image->place($logoBg, 'top-left', $x, $y);
+            // Create logo with transparent background
+            $logo = imagecreatefromstring(file_get_contents($logoPath));
+            if ($logo) {
+                // Create transparent background for logo
+                $logoBg = imagecreatetruecolor($logoSize + 10, $logoSize + 10);
+                $transparentBg = imagecolorallocatealpha($logoBg, 0, 0, 0, 127);
+                imagefill($logoBg, 0, 0, $transparentBg);
+                imagecolortransparent($logoBg, $transparentBg);
+                
+                // Resize logo maintaining aspect ratio
+                $resizedLogo = imagecreatetruecolor($logoSize, $logoSize);
+                imagealphablending($resizedLogo, false);
+                imagesavealpha($resizedLogo, true);
+                $transparentColor = imagecolorallocatealpha($resizedLogo, 0, 0, 0, 127);
+                imagefill($resizedLogo, 0, 0, $transparentColor);
+                imagecolortransparent($resizedLogo, $transparentColor);
+                
+                imagecopyresampled($resizedLogo, $logo, 0, 0, 0, 0, $logoSize, $logoSize, $logoInfo[0], $logoInfo[1]);
+                
+                // Place logo on transparent background
+                imagecopy($logoBg, $resizedLogo, 5, 5, 0, 0, $logoSize, $logoSize);
+                
+                // Place in bottom-right corner
+                $x = $width - $logoSize - 20;
+                $y = $height - $logoSize - 20;
+                
+                imagecopy($image, $logoBg, $x, $y, 0, 0, $logoSize + 10, $logoSize + 10);
+                
+                imagedestroy($logo);
+                imagedestroy($resizedLogo);
+                imagedestroy($logoBg);
+            }
 
             // Save watermarked image
             $outputPath = $outputPath ?: $imagePath;
-            $image->save($outputPath);
+            switch ($type) {
+                case IMAGETYPE_JPEG:
+                    imagejpeg($image, $outputPath, 90);
+                    break;
+                case IMAGETYPE_PNG:
+                    imagepng($image, $outputPath);
+                    break;
+                case IMAGETYPE_GIF:
+                    imagegif($image, $outputPath);
+                    break;
+            }
 
+            imagedestroy($image);
             return true;
         } catch (\Exception $e) {
             \Log::error('Corner watermarking failed: ' . $e->getMessage());
