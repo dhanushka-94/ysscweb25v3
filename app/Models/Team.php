@@ -16,10 +16,16 @@ class Team extends Model
         'date_of_birth',
         'order',
         'is_active',
+        'category_id',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(TeamCategory::class);
+    }
 }

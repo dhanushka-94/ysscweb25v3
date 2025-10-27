@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Team;
+use App\Models\TeamCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,13 +12,14 @@ class AdminTeamController extends Controller
 {
     public function index()
     {
-        $team = Team::orderBy('order')->paginate(20);
+        $team = Team::with('category')->orderBy('order')->paginate(20);
         return view('admin.team.index', compact('team'));
     }
 
     public function create()
     {
-        return view('admin.team.create');
+        $categories = TeamCategory::where('is_active', true)->orderBy('order')->get();
+        return view('admin.team.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -32,6 +34,7 @@ class AdminTeamController extends Controller
             'date_of_birth' => 'nullable|date',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
+            'category_id' => 'nullable|exists:team_categories,id',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -47,7 +50,8 @@ class AdminTeamController extends Controller
 
     public function edit(Team $team)
     {
-        return view('admin.team.edit', compact('team'));
+        $categories = TeamCategory::where('is_active', true)->orderBy('order')->get();
+        return view('admin.team.edit', compact('team', 'categories'));
     }
 
     public function update(Request $request, Team $team)
@@ -62,6 +66,7 @@ class AdminTeamController extends Controller
             'date_of_birth' => 'nullable|date',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
+            'category_id' => 'nullable|exists:team_categories,id',
         ]);
 
         if ($request->hasFile('photo')) {

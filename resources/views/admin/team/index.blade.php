@@ -33,6 +33,7 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Photo</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jersey #</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order</th>
@@ -56,6 +57,15 @@
                                     <div class="text-sm text-gray-500">{{ $member->nationality }}</div>
                                 @endif
                             </td>
+                            <td class="px-6 py-4">
+                                @if($member->category)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background-color: {{ $member->category->color }}20; color: {{ $member->category->color }};">
+                                        {{ $member->category->name }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400 text-sm">No Category</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4">{{ $member->position }}</td>
                             <td class="px-6 py-4">{{ $member->jersey_number ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $member->order }}</td>
@@ -75,7 +85,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">No team members found.</td>
+                            <td colspan="8" class="px-6 py-4 text-center text-gray-500">No team members found.</td>
                         </tr>
                         @endforelse
                     </tbody>

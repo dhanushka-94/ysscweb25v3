@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminGalleryController;
 use App\Http\Controllers\Admin\AdminSponsorController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminTeamController;
+use App\Http\Controllers\Admin\AdminTeamCategoryController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\AdminOfficeBearerController;
 use App\Http\Controllers\Admin\AdminMemberApplicationController;
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Team Management
     Route::resource('team', AdminTeamController::class);
+    
+    // Team Categories Management
+    Route::resource('team-categories', AdminTeamCategoryController::class);
     
     // Fixtures Management
     Route::resource('fixtures', AdminFixtureController::class);

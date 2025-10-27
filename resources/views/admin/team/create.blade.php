@@ -51,15 +51,33 @@
 
                         <div class="grid grid-cols-2 gap-6">
                             <div>
+                                <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Team Category</label>
+                                <select id="category_id" name="category_id"
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('category_id') border-red-500 @enderror">
+                                    <option value="">Select Category (Optional)</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category_id', request('category')) == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
                                 <label for="jersey_number" class="block text-sm font-semibold text-gray-700 mb-2">Jersey Number</label>
-                                <input type="text" id="jersey_number" name="jersey_number"
+                                <input type="text" id="jersey_number" name="jersey_number" placeholder="e.g. 10"
                                     class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none @error('jersey_number') border-red-500 @enderror"
                                     value="{{ old('jersey_number') }}">
                                 @error('jersey_number')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
+                        </div>
 
+                        <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <label for="nationality" class="block text-sm font-semibold text-gray-700 mb-2">Nationality</label>
                                 <input type="text" id="nationality" name="nationality"
