@@ -24,6 +24,12 @@ class TeamController extends Controller
             ->orderBy('order')
             ->get();
 
-        return view('team.index', compact('categories', 'allTeams'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'About', 'url' => route('about.club')],
+            ['title' => 'Team', 'url' => null]
+        ];
+
+        return view('team.index', compact('categories', 'allTeams', 'breadcrumbs'));
     }
 }
