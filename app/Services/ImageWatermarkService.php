@@ -59,8 +59,8 @@ class ImageWatermarkService
             }
 
             // Calculate watermark position (bottom-right corner)
-            $watermarkWidth = min($width * 0.3, 350); // Max 350px or 30% of image width
-            $watermarkHeight = 100; // Increased height for better text spacing
+            $watermarkWidth = min($width * 0.35, 400); // Increased width for two-column layout
+            $watermarkHeight = 80; // Fixed height for consistent layout
             $x = $width - $watermarkWidth - 15;
             $y = $height - $watermarkHeight - 15;
 
@@ -70,38 +70,42 @@ class ImageWatermarkService
 
             // Create semi-transparent overlay (lighter shading)
             $overlay = imagecreatetruecolor($watermarkWidth, $watermarkHeight);
-            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 60); // Lighter semi-transparent (was 100)
+            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 60); // Lighter semi-transparent
             imagefill($overlay, 0, 0, $transparent);
 
-            // Add logo if available (without black background)
+            // Two-column layout: Logo on left, text on right
+            $logoSize = 60; // Fixed logo size
+            $logoX = 10;
+            $logoY = ($watermarkHeight - $logoSize) / 2; // Center vertically
+            $textX = $logoSize + 20; // Start text after logo
+            $textY = 15; // Top of text area
+
+            // Add logo if available (left column)
             if ($siteLogo && Storage::disk('public')->exists($siteLogo)) {
                 $logoPath = Storage::disk('public')->path($siteLogo);
                 $logoInfo = getimagesize($logoPath);
                 if ($logoInfo) {
-                    $logoWidth = min(50, $watermarkWidth * 0.25);
-                    $logoHeight = $logoWidth;
-                    
                     // Create logo with transparent background
                     $logo = imagecreatefromstring(file_get_contents($logoPath));
                     if ($logo) {
                         // Create transparent background for logo
-                        $logoBg = imagecreatetruecolor($logoWidth + 10, $logoHeight + 10);
+                        $logoBg = imagecreatetruecolor($logoSize + 10, $logoSize + 10);
                         $transparentBg = imagecolorallocatealpha($logoBg, 0, 0, 0, 127);
                         imagefill($logoBg, 0, 0, $transparentBg);
                         imagecolortransparent($logoBg, $transparentBg);
                         
                         // Resize logo maintaining aspect ratio
-                        $resizedLogo = imagecreatetruecolor($logoWidth, $logoHeight);
+                        $resizedLogo = imagecreatetruecolor($logoSize, $logoSize);
                         imagealphablending($resizedLogo, false);
                         imagesavealpha($resizedLogo, true);
                         $transparentColor = imagecolorallocatealpha($resizedLogo, 0, 0, 0, 127);
                         imagefill($resizedLogo, 0, 0, $transparentColor);
                         imagecolortransparent($resizedLogo, $transparentColor);
                         
-                        imagecopyresampled($resizedLogo, $logo, 0, 0, 0, 0, $logoWidth, $logoHeight, $logoInfo[0], $logoInfo[1]);
+                        imagecopyresampled($resizedLogo, $logo, 0, 0, 0, 0, $logoSize, $logoSize, $logoInfo[0], $logoInfo[1]);
                         
-                        // Place logo on overlay with transparent background
-                        imagecopy($overlay, $resizedLogo, 10, 10, 0, 0, $logoWidth, $logoHeight);
+                        // Place logo on overlay (left column)
+                        imagecopy($overlay, $resizedLogo, $logoX, $logoY, 0, 0, $logoSize, $logoSize);
                         
                         imagedestroy($logo);
                         imagedestroy($resizedLogo);
@@ -110,18 +114,17 @@ class ImageWatermarkService
                 }
             }
 
-            // Add text with better fonts and positioning
+            // Add text in right column
             $white = imagecolorallocate($overlay, 255, 255, 255);
             $yellow = imagecolorallocate($overlay, 255, 255, 0);
             $lightGray = imagecolorallocate($overlay, 200, 200, 200);
             
-            // Add club name with larger font (positioned after logo)
-            $logoHeight = 50; // Approximate logo height
-            imagestring($overlay, 5, 15, $logoHeight + 10, $siteName, $white);
-            // Add tagline with medium font
-            imagestring($overlay, 4, 15, $logoHeight + 30, $siteTagline, $yellow);
-            // Add website with smaller font
-            imagestring($overlay, 3, 15, $logoHeight + 50, $website, $lightGray);
+            // Add site name (top right)
+            imagestring($overlay, 4, $textX, $textY, $siteName, $white);
+            // Add tagline (bottom right)
+            imagestring($overlay, 3, $textX, $textY + 25, $siteTagline, $yellow);
+            // Add website (bottom right)
+            imagestring($overlay, 2, $textX, $textY + 45, $website, $lightGray);
 
             // Merge overlay with main image
             imagecopy($image, $overlay, $x, $y, 0, 0, $watermarkWidth, $watermarkHeight);
