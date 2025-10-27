@@ -13,6 +13,7 @@ use App\Http\Controllers\AboutContentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MemberApplicationController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\YouTubeController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -36,6 +37,7 @@ Route::prefix('sportspress')->name('sportspress.')->group(function () {
 // Other Public Routes
 Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors');
 Route::get('/gallery', [GalleryImageController::class, 'index'])->name('gallery');
+Route::get('/videos', [YouTubeController::class, 'index'])->name('youtube');
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ProductController::class, 'show'])->name('shop.show');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

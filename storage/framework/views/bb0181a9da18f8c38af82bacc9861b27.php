@@ -448,7 +448,21 @@
                         </div>
 
                         <a href="<?php echo e(route('sponsors')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SPONSORS</a>
-                        <a href="<?php echo e(route('gallery')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">GALLERY</a>
+                        
+                        <!-- Gallery Dropdown -->
+                        <div class="relative dropdown-container">
+                            <button class="text-gray-700 hover:text-yellow-500 font-medium transition flex items-center space-x-1 uppercase">
+                                <span>GALLERY</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50">
+                                <a href="<?php echo e(route('gallery')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Photos</a>
+                                <a href="<?php echo e(route('youtube')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Videos</a>
+                            </div>
+                        </div>
+                        
                         <a href="<?php echo e(route('shop')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">SHOP</a>
                         <a href="<?php echo e(route('contact')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">CONTACT US</a>
                         <a href="<?php echo e(route('news')); ?>" class="text-gray-700 hover:text-yellow-500 font-medium transition uppercase">NEWS</a>
@@ -491,7 +505,11 @@
                         <a href="<?php echo e(route('sportspress.fixtures')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Fixtures</a>
                     </div>
                     <a href="<?php echo e(route('sponsors')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SPONSORS</a>
-                    <a href="<?php echo e(route('gallery')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">GALLERY</a>
+                    <div class="py-2">
+                        <span class="block text-gray-900 font-semibold mb-1 uppercase">GALLERY</span>
+                        <a href="<?php echo e(route('gallery')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Photos</a>
+                        <a href="<?php echo e(route('youtube')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Videos</a>
+                    </div>
                     <a href="<?php echo e(route('shop')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">SHOP</a>
                     <a href="<?php echo e(route('contact')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">CONTACT US</a>
                     <a href="<?php echo e(route('news')); ?>" class="block py-2 text-gray-700 hover:text-yellow-500 font-medium uppercase">NEWS</a>
