@@ -9,111 +9,98 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
+<body class="font-sans text-gray-900 antialiased">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <!-- Logo & Branding -->
-        <div class="text-center mb-8">
+        <div class="mb-8">
             <a href="{{ route('home') }}" class="inline-flex flex-col items-center">
-                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-4">
-                    <span class="text-4xl font-bold text-yellow-500">Y</span>
-                </div>
-                <h1 class="text-3xl font-bold text-white mb-2">YSSC Football Club</h1>
-                <p class="text-gray-900 font-medium">Admin Login</p>
+                @php
+                    $siteLogo = \App\Models\Setting::get('site_logo');
+                    $siteName = \App\Models\Setting::get('site_name', 'YSSC Football Club');
+                    $siteTagline = \App\Models\Setting::get('site_tagline', 'Victory Through Unity');
+                @endphp
+                
+                @if($siteLogo)
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ $siteName }}" class="w-20 h-20 object-contain mb-4">
+                @else
+                    <div class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg mb-4">
+                        <span class="text-4xl font-bold text-gray-900">Y</span>
+                    </div>
+                @endif
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $siteName }}</h1>
+                <p class="text-gray-600 font-medium">Admin Login</p>
             </a>
         </div>
 
         <!-- Login Card -->
-        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <!-- Card Header -->
-            <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-8 py-6">
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 text-center">Welcome Back</h2>
-                <p class="text-gray-800 text-center text-sm mt-1">Sign in to manage your club</p>
+                <p class="text-gray-600 text-center text-sm mt-1">Sign in to manage your club</p>
             </div>
+            <!-- Session Status -->
+            @if (session('status'))
+                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-            <!-- Card Body -->
-            <div class="px-8 py-8">
-                <!-- Session Status -->
-                @if (session('status'))
-                    <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                        {{ session('status') }}
-                    </div>
-                @endif
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+                <!-- Email Address -->
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                        class="block mt-1 w-full border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 rounded-md shadow-sm @error('email') border-red-500 @enderror">
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    <!-- Email Address -->
-                    <div class="mb-6">
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none transition @error('email') border-red-500 @enderror">
-                        @error('email')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password"
+                        class="block mt-1 w-full border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 rounded-md shadow-sm @error('password') border-red-500 @enderror">
+                    @error('password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    <!-- Password -->
-                    <div class="mb-6">
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                        <input id="password" type="password" name="password" required autocomplete="current-password"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-yellow-400 focus:outline-none transition @error('password') border-red-500 @enderror">
-                        @error('password')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <!-- Remember Me -->
+                <div class="flex items-center justify-between mb-4">
+                    <label for="remember_me" class="inline-flex items-center">
+                        <input id="remember_me" type="checkbox" name="remember" 
+                            class="rounded border-gray-300 text-yellow-600 shadow-sm focus:ring-yellow-500">
+                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    </label>
 
-                    <!-- Remember Me -->
-                    <div class="flex items-center justify-between mb-6">
-                        <label for="remember_me" class="inline-flex items-center">
-                            <input id="remember_me" type="checkbox" name="remember" 
-                                class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">
-                            <span class="ml-2 text-sm text-gray-700">Remember me</span>
-                        </label>
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-sm text-yellow-600 hover:text-yellow-500 font-medium">
+                            Forgot Password?
+                        </a>
+                    @endif
+                </div>
 
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-sm text-yellow-600 hover:text-yellow-700 font-semibold">
-                                Forgot Password?
-                            </a>
-                        @endif
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 py-3 rounded-lg font-bold text-lg hover:from-yellow-500 hover:to-yellow-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                <!-- Submit Button -->
+                <div class="flex items-center justify-end">
+                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
                         Log In
                     </button>
-                </form>
-
-                <!-- Register Link -->
-                @if (Route::has('register'))
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-gray-600">
-                            Don't have an account?
-                            <a href="{{ route('register') }}" class="text-yellow-600 hover:text-yellow-700 font-semibold">
-                                Register here
-                            </a>
-                        </p>
-                    </div>
-                @endif
-            </div>
+                </div>
+            </form>
         </div>
 
         <!-- Back to Website -->
-        <div class="text-center mt-8">
-            <a href="{{ route('home') }}" class="inline-flex items-center text-white hover:text-gray-900 font-semibold transition">
+        <div class="text-center mt-6">
+            <a href="{{ route('home') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 Back to Website
             </a>
         </div>
-    </div>
-
-    <!-- Floating Football Elements (Decorative) -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-full animate-bounce" style="animation-delay: 0s; animation-duration: 3s;"></div>
-        <div class="absolute top-40 right-20 w-12 h-12 bg-white/10 rounded-full animate-bounce" style="animation-delay: 1s; animation-duration: 4s;"></div>
-        <div class="absolute bottom-20 left-1/4 w-20 h-20 bg-white/10 rounded-full animate-bounce" style="animation-delay: 2s; animation-duration: 5s;"></div>
-        <div class="absolute bottom-40 right-1/3 w-14 h-14 bg-white/10 rounded-full animate-bounce" style="animation-delay: 1.5s; animation-duration: 3.5s;"></div>
     </div>
 </body>
 </html>
