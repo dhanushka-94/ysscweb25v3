@@ -39,56 +39,64 @@
     </div>
 </div>
 
-<!-- Channel Info -->
-<section class="py-16 bg-white">
+<!-- Channel Info - Compact -->
+<section class="py-8 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-red-600 rounded-full mb-6">
-                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-            </div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-4"><?php echo e($channelInfo['name']); ?></h2>
-            <p class="text-xl text-gray-600 mb-4"><?php echo e($channelInfo['custom_url'] ?? '@YoungSilverSportsClub'); ?></p>
-            <p class="text-gray-700 max-w-3xl mx-auto mb-8"><?php echo e($channelInfo['description']); ?></p>
-            
-            <?php if($channelInfo['subscriber_count'] || $channelInfo['video_count'] || $channelInfo['view_count']): ?>
-                <div class="flex justify-center space-x-8 mb-8">
-                    <?php if($channelInfo['subscriber_count']): ?>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-gray-900"><?php echo e($channelInfo['subscriber_count']); ?></div>
-                            <div class="text-sm text-gray-600">Subscribers</div>
-                        </div>
-                    <?php endif; ?>
-                    <?php if($channelInfo['video_count']): ?>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-gray-900"><?php echo e($channelInfo['video_count']); ?></div>
-                            <div class="text-sm text-gray-600">Videos</div>
-                        </div>
-                    <?php endif; ?>
-                    <?php if($channelInfo['view_count']): ?>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-gray-900"><?php echo e($channelInfo['view_count']); ?></div>
-                            <div class="text-sm text-gray-600">Views</div>
-                        </div>
-                    <?php endif; ?>
+        <div class="flex items-center justify-between bg-gray-50 rounded-lg p-6">
+            <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
                 </div>
-            <?php endif; ?>
-            <a href="<?php echo e($channelInfo['url']); ?>" target="_blank" 
-               class="inline-flex items-center bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-                Visit Our Channel
-            </a>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900"><?php echo e($channelInfo['name']); ?></h2>
+                    <p class="text-sm text-gray-600"><?php echo e($channelInfo['custom_url'] ?? '@YoungSilverSportsClub'); ?></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <?php if($channelInfo['subscriber_count'] || $channelInfo['video_count'] || $channelInfo['view_count']): ?>
+                    <div class="flex space-x-4 text-sm">
+                        <?php if($channelInfo['subscriber_count']): ?>
+                            <div class="text-center">
+                                <div class="font-bold text-gray-900"><?php echo e($channelInfo['subscriber_count']); ?></div>
+                                <div class="text-gray-600">Subscribers</div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if($channelInfo['video_count']): ?>
+                            <div class="text-center">
+                                <div class="font-bold text-gray-900"><?php echo e($channelInfo['video_count']); ?></div>
+                                <div class="text-gray-600">Videos</div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if($channelInfo['view_count']): ?>
+                            <div class="text-center">
+                                <div class="font-bold text-gray-900"><?php echo e($channelInfo['view_count']); ?></div>
+                                <div class="text-gray-600">Views</div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+                
+                <a href="<?php echo e($channelInfo['url']); ?>" target="_blank" 
+                   class="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    Visit Channel
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Latest Videos -->
-<section class="py-16 bg-gray-50">
+<section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Latest Videos</h2>
             <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
         </div>
@@ -128,9 +136,9 @@
 </section>
 
 <!-- Playlists -->
-<section class="py-16 bg-white">
+<section class="py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Playlists</h2>
             <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
         </div>
