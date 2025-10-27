@@ -14,7 +14,7 @@ class AdminTeamCategoryController extends Controller
      */
     public function index()
     {
-        $categories = TeamCategory::orderBy('order')->paginate(20);
+        $categories = TeamCategory::withCount('teams')->orderBy('order')->paginate(20);
         return view('admin.team-categories.index', compact('categories'));
     }
 

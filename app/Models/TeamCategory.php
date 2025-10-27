@@ -39,6 +39,6 @@ class TeamCategory extends Model
 
     public function teams()
     {
-        return $this->hasMany(Team::class);
+        return $this->hasMany(Team::class, 'category_id');
     }
 }
