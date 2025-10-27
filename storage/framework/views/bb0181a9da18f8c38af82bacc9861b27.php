@@ -427,6 +427,7 @@
                                 <a href="<?php echo e(route('about.history')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Our History</a>
                                 <a href="<?php echo e(route('about.club')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">The Club</a>
                                 <a href="<?php echo e(route('about.arena')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Arena</a>
+                                <a href="<?php echo e(route('about.team')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Team</a>
                                 <a href="<?php echo e(route('about.office-bearers')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Office Bearers</a>
                                 <a href="<?php echo e(route('about.bank-details')); ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 uppercase">Bank Details</a>
                             </div>
@@ -480,6 +481,7 @@
                         <a href="<?php echo e(route('about.history')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Our History</a>
                         <a href="<?php echo e(route('about.club')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">The Club</a>
                         <a href="<?php echo e(route('about.arena')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Arena</a>
+                        <a href="<?php echo e(route('about.team')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Team</a>
                         <a href="<?php echo e(route('about.office-bearers')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Office Bearers</a>
                         <a href="<?php echo e(route('about.bank-details')); ?>" class="block py-1 pl-4 text-gray-700 hover:text-yellow-500 uppercase">Bank Details</a>
                     </div>
@@ -575,6 +577,7 @@
                     <h3 class="text-lg font-bold mb-4 text-yellow-400">Quick Links</h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="<?php echo e(route('about.history')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Our History</a></li>
+                        <li><a href="<?php echo e(route('about.team')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Team</a></li>
                         <li><a href="<?php echo e(route('about.office-bearers')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Office Bearers</a></li>
                         <li><a href="<?php echo e(route('member-application.index')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Join Us</a></li>
                         <li><a href="<?php echo e(route('sportspress.fixtures')); ?>" class="text-gray-300 hover:text-yellow-400 transition">Fixtures</a></li>

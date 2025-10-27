@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AboutContentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MemberApplicationController;
+use App\Http\Controllers\TeamController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,6 +24,7 @@ Route::prefix('about')->name('about.')->group(function () {
     Route::get('/arena', [AboutContentController::class, 'arena'])->name('arena');
     Route::get('/office-bearers', [OfficeBearerController::class, 'index'])->name('office-bearers');
     Route::get('/bank-details', [AboutContentController::class, 'bankDetails'])->name('bank-details');
+    Route::get('/team', [TeamController::class, 'index'])->name('team');
 });
 
 // SportsPress Routes
