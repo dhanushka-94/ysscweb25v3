@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Models\TeamCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,9 @@ class SettingsController extends Controller
             'site_logo' => Setting::get('site_logo'),
         ];
 
-        return view('admin.settings.index', compact('settings'));
+        $categories = TeamCategory::withCount('teams')->orderBy('order')->take(6)->get();
+
+        return view('admin.settings.index', compact('settings', 'categories'));
     }
 
     public function update(Request $request)

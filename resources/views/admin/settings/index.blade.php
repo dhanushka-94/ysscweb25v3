@@ -93,6 +93,60 @@
                 </form>
             </div>
 
+            <!-- Team Categories Management -->
+            <div class="mt-8 bg-white rounded-lg shadow p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Team Categories</h2>
+                        <p class="text-gray-600 mt-1">Manage team categories for organizing team members</p>
+                    </div>
+                    <a href="{{ route('admin.team-categories.index') }}" class="bg-yellow-400 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-500 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Manage Categories
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @forelse($categories as $category)
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-4 h-4 rounded-full border-2 border-gray-300" style="background-color: {{ $category->color }}"></div>
+                                <h3 class="font-semibold text-gray-900">{{ $category->name }}</h3>
+                            </div>
+                            @if($category->description)
+                                <p class="text-sm text-gray-600 mb-2">{{ Str::limit($category->description, 60) }}</p>
+                            @endif
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>{{ $category->teams_count }} members</span>
+                                <span class="px-2 py-1 text-xs rounded-full {{ $category->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                    {{ $category->is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center py-8 text-gray-500">
+                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            <p>No team categories found</p>
+                            <a href="{{ route('admin.team-categories.create') }}" class="text-yellow-600 hover:text-yellow-700 mt-2 inline-block">
+                                Create your first category
+                            </a>
+                        </div>
+                    @endforelse
+                </div>
+
+                @if($categories->count() >= 6)
+                    <div class="mt-4 text-center">
+                        <a href="{{ route('admin.team-categories.index') }}" class="text-yellow-600 hover:text-yellow-700 text-sm font-medium">
+                            View all {{ \App\Models\TeamCategory::count() }} categories →
+                        </a>
+                    </div>
+                @endif
+            </div>
+
             <!-- Information Box -->
             <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4">
                 <div class="flex">
