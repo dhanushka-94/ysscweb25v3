@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GalleryImage;
+use App\Services\ImageWatermarkService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminGalleryController extends Controller
 {
+    protected $watermarkService;
+
+    public function __construct(ImageWatermarkService $watermarkService)
+    {
+        $this->watermarkService = $watermarkService;
+    }
+
     public function index()
     {
         // Group images by category and sort by latest first
@@ -23,6 +31,27 @@ class AdminGalleryController extends Controller
             });
         
         return view('admin.gallery.index', compact('groupedImages'));
+    }
+
+    /**
+     * Apply watermark to an image
+     */
+    private function applyWatermark($imagePath)
+    {
+        try {
+            $fullPath = Storage::disk('public')->path($imagePath);
+            
+            // Try different watermarking methods
+            if (!$this->watermarkService->addWatermark($fullPath)) {
+                // Fallback to corner watermark
+                $this->watermarkService->addCornerWatermark($fullPath);
+            }
+            
+            return true;
+        } catch (\Exception $e) {
+            \Log::error('Watermarking failed for image: ' . $imagePath . ' - ' . $e->getMessage());
+            return false;
+        }
     }
 
     public function create()
@@ -48,6 +77,9 @@ class AdminGalleryController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = $slug . '_' . time() . '.' . $extension;
             $validated['image_path'] = $file->storeAs('gallery', $filename, 'public');
+            
+            // Apply watermark to the uploaded image
+            $this->applyWatermark($validated['image_path']);
         }
 
         $validated['is_featured'] = $request->has('is_featured');
@@ -95,6 +127,9 @@ class AdminGalleryController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = $slug . '_' . time() . '.' . $extension;
             $validated['image_path'] = $file->storeAs('gallery', $filename, 'public');
+            
+            // Apply watermark to the uploaded image
+            $this->applyWatermark($validated['image_path']);
         }
 
         $validated['is_featured'] = $request->has('is_featured');
@@ -165,6 +200,9 @@ class AdminGalleryController extends Controller
                 $extension = $image->getClientOriginalExtension();
                 $filename = $slug . '_' . time() . '_' . $order . '.' . $extension;
                 $imagePath = $image->storeAs('gallery', $filename, 'public');
+                
+                // Apply watermark to the uploaded image
+                $this->applyWatermark($imagePath);
 
                 // Check if image with same title exists and replace it
                 $existingImage = GalleryImage::where('title', $title)->first();
@@ -254,6 +292,9 @@ class AdminGalleryController extends Controller
             $finalFilename = $slug . '_' . time() . '.' . $extension;
             
             $imagePath = $image->storeAs('gallery', $finalFilename, 'public');
+            
+            // Apply watermark to the uploaded image
+            $this->applyWatermark($imagePath);
             
             // Create unique title for each image
             $title = $titlePrefix ? $titlePrefix . ' - ' . $filename : $filename;

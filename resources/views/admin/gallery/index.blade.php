@@ -21,7 +21,10 @@
             @endif
 
             <div class="flex justify-between mb-6">
-                <h1 class="text-3xl font-bold text-gray-900">Manage Gallery</h1>
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Manage Gallery</h1>
+                    <p class="text-gray-600 mt-1">Images are automatically watermarked with club branding</p>
+                </div>
                 <div class="flex space-x-3">
                     <button id="bulk-delete-btn" class="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600 hidden" onclick="bulkDelete()">
                         <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
