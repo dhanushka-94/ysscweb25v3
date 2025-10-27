@@ -15,6 +15,66 @@ class YouTubeService
     {
         $this->apiKey = config('services.youtube.api_key');
         $this->channelId = config('services.youtube.channel_id');
+        
+        // Convert channel handle to channel ID if needed
+        if (str_starts_with($this->channelId, '@')) {
+            $this->channelId = $this->getChannelIdFromHandle($this->channelId);
+        }
+    }
+
+    /**
+     * Get the current channel ID
+     */
+    public function getChannelId()
+    {
+        return $this->channelId;
+    }
+
+    /**
+     * Convert channel handle (@username) to channel ID
+     */
+    private function getChannelIdFromHandle($handle)
+    {
+        try {
+            // First try with forUsername
+            $response = Http::get($this->baseUrl . '/channels', [
+                'part' => 'id',
+                'forUsername' => ltrim($handle, '@'),
+                'key' => $this->apiKey
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                if (!empty($data['items'])) {
+                    \Log::info('Channel ID found via forUsername: ' . $data['items'][0]['id']);
+                    return $data['items'][0]['id'];
+                }
+            }
+
+            // If forUsername fails, try with search
+            $searchResponse = Http::get($this->baseUrl . '/search', [
+                'part' => 'snippet',
+                'q' => $handle,
+                'type' => 'channel',
+                'maxResults' => 1,
+                'key' => $this->apiKey
+            ]);
+
+            if ($searchResponse->successful()) {
+                $searchData = $searchResponse->json();
+                if (!empty($searchData['items'])) {
+                    $channelId = $searchData['items'][0]['snippet']['channelId'];
+                    \Log::info('Channel ID found via search: ' . $channelId);
+                    return $channelId;
+                }
+            }
+
+            \Log::warning('Could not find channel ID for handle: ' . $handle);
+        } catch (\Exception $e) {
+            \Log::error('YouTube API Error (Channel Handle): ' . $e->getMessage());
+        }
+
+        return $handle; // Return original if conversion fails
     }
 
     /**
@@ -60,6 +120,8 @@ class YouTubeService
     {
         return Cache::remember("youtube_latest_videos_{$maxResults}", 1800, function () use ($maxResults) {
             try {
+                \Log::info('Getting latest videos for channel: ' . $this->channelId);
+                
                 // First, get the uploads playlist ID
                 $channelResponse = Http::get($this->baseUrl . '/channels', [
                     'part' => 'contentDetails',
@@ -68,15 +130,18 @@ class YouTubeService
                 ]);
 
                 if (!$channelResponse->successful()) {
+                    \Log::error('Failed to get channel details: ' . $channelResponse->body());
                     return [];
                 }
 
                 $channelData = $channelResponse->json();
                 if (empty($channelData['items'])) {
+                    \Log::warning('No channel data found');
                     return [];
                 }
 
                 $uploadsPlaylistId = $channelData['items'][0]['contentDetails']['relatedPlaylists']['uploads'];
+                \Log::info('Uploads playlist ID: ' . $uploadsPlaylistId);
 
                 // Get videos from uploads playlist
                 $response = Http::get($this->baseUrl . '/playlistItems', [
@@ -86,8 +151,12 @@ class YouTubeService
                     'key' => $this->apiKey
                 ]);
 
+                \Log::info('Playlist items response status: ' . $response->status());
+                
                 if ($response->successful()) {
                     $data = $response->json();
+                    \Log::info('Found ' . count($data['items']) . ' playlist items');
+                    
                     $videos = [];
 
                     foreach ($data['items'] as $item) {
@@ -103,7 +172,10 @@ class YouTubeService
                         }
                     }
 
+                    \Log::info('Returning ' . count($videos) . ' videos');
                     return $videos;
+                } else {
+                    \Log::error('Failed to get playlist items: ' . $response->body());
                 }
             } catch (\Exception $e) {
                 \Log::error('YouTube API Error (Latest Videos): ' . $e->getMessage());
