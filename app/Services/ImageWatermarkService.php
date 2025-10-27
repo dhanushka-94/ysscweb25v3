@@ -68,9 +68,9 @@ class ImageWatermarkService
             $x = max(10, $x);
             $y = max(10, $y);
 
-            // Create semi-transparent overlay
+            // Create semi-transparent overlay (lighter shading)
             $overlay = imagecreatetruecolor($watermarkWidth, $watermarkHeight);
-            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 100); // Semi-transparent
+            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 60); // Lighter semi-transparent (was 100)
             imagefill($overlay, 0, 0, $transparent);
 
             // Add logo if available (without black background)
