@@ -68,9 +68,9 @@ class ImageWatermarkService
             $x = max(10, $x);
             $y = max(10, $y);
 
-            // Create semi-transparent overlay (lighter shading)
+            // Create fully transparent overlay (no shading)
             $overlay = imagecreatetruecolor($watermarkWidth, $watermarkHeight);
-            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 60); // Lighter semi-transparent
+            $transparent = imagecolorallocatealpha($overlay, 0, 0, 0, 127); // Fully transparent
             imagefill($overlay, 0, 0, $transparent);
 
             // Two-column layout: Logo on left, text on right
