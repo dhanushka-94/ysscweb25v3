@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.frontend')
 
 @section('title', 'Our Team - ' . config('app.name'))
 @section('description', 'Meet our talented team members from different categories including main team, youth teams, coaching staff, and management.')
