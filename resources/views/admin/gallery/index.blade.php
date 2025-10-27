@@ -69,7 +69,7 @@
                             <div class="bg-white rounded-lg shadow overflow-hidden">
                                 <div class="relative">
                                     <input type="checkbox" class="image-checkbox absolute top-2 left-2 z-10" value="{{ $image->id }}" data-gallery="{{ $loop->parent->index }}">
-                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}" class="w-full h-48 object-cover">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}" class="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition" onclick="viewImage('{{ asset('storage/' . $image->image_path) }}', '{{ $image->title }}', '{{ $image->description ?? '' }}')">
                                 </div>
                                 <div class="p-4">
                                     <h3 class="font-semibold text-gray-900 mb-1">{{ $image->title }}</h3>
@@ -80,6 +80,7 @@
                                         <span class="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full mb-2">Featured</span>
                                     @endif
                                     <div class="flex space-x-2 mt-3">
+                                        <button onclick="viewImage('{{ asset('storage/' . $image->image_path) }}', '{{ $image->title }}', '{{ $image->description ?? '' }}')" class="text-sm text-blue-600 hover:text-blue-900">View</button>
                                         <a href="{{ route('admin.gallery.edit', $image) }}" class="text-sm text-yellow-600 hover:text-yellow-900">Edit</a>
                                         <form action="{{ route('admin.gallery.destroy', $image) }}" method="POST" class="inline">
                                             @csrf
@@ -104,6 +105,20 @@
                 @csrf
                 <div id="selected-images-inputs"></div>
             </form>
+        </div>
+    </div>
+
+    <!-- Image View Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4">
+        <div class="relative max-w-6xl max-h-full">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-yellow-400 text-4xl font-bold z-10 bg-black bg-opacity-50 rounded-full w-12 h-12 flex items-center justify-center">
+                &times;
+            </button>
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6 text-white">
+                <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
+                <p id="modalDescription" class="text-gray-200"></p>
+            </div>
         </div>
     </div>
 
@@ -186,6 +201,35 @@
                 form.submit();
             }
         }
+
+        // Image viewing functions
+        function viewImage(imageSrc, title, description) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalImage').alt = title;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescription').textContent = description || 'No description available';
+            document.getElementById('imageModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
     </script>
 </body>
 </html>
