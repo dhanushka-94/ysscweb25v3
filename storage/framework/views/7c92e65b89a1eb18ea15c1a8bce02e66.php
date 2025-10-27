@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     
     <title>Forgot Password - YSSC Football Club</title>
     
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
 </head>
 <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <!-- Logo & Branding -->
         <div class="mb-8">
-            <a href="{{ route('home') }}" class="inline-flex flex-col items-center">
-                @php
+            <a href="<?php echo e(route('home')); ?>" class="inline-flex flex-col items-center">
+                <?php
                     $siteLogo = \App\Models\Setting::get('site_logo');
                     $siteName = \App\Models\Setting::get('site_name', 'YSSC Football Club');
                     $siteTagline = \App\Models\Setting::get('site_tagline', 'Victory Through Unity');
-                @endphp
+                ?>
                 
-                @if($siteLogo)
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ $siteName }}" class="w-20 h-20 object-contain mb-4">
-                @else
+                <?php if($siteLogo): ?>
+                    <img src="<?php echo e(asset('storage/' . $siteLogo)); ?>" alt="<?php echo e($siteName); ?>" class="w-20 h-20 object-contain mb-4">
+                <?php else: ?>
                     <div class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg mb-4">
                         <span class="text-4xl font-bold text-gray-900">Y</span>
                     </div>
-                @endif
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $siteName }}</h1>
+                <?php endif; ?>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2"><?php echo e($siteName); ?></h1>
                 <p class="text-gray-600 font-medium">Password Reset</p>
             </a>
         </div>
@@ -40,23 +40,38 @@
             </div>
 
             <!-- Session Status -->
-            @if (session('status'))
+            <?php if(session('status')): ?>
                 <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                    {{ session('status') }}
-                </div>
-            @endif
+                    <?php echo e(session('status')); ?>
 
-            <form method="POST" action="{{ route('password.email') }}">
-                @csrf
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" action="<?php echo e(route('password.email')); ?>">
+                <?php echo csrf_field(); ?>
 
                 <!-- Email Address -->
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                        class="block mt-1 w-full border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 rounded-md shadow-sm @error('email') border-red-500 @enderror">
-                    @error('email')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <input id="email" type="email" name="email" value="<?php echo e(old('email')); ?>" required autofocus autocomplete="username"
+                        class="block mt-1 w-full border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 rounded-md shadow-sm <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Submit Button -->
@@ -69,7 +84,7 @@
 
             <!-- Back to Login -->
             <div class="text-center">
-                <a href="{{ route('login') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
+                <a href="<?php echo e(route('login')); ?>" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -80,7 +95,7 @@
 
         <!-- Back to Website -->
         <div class="text-center mt-6">
-            <a href="{{ route('home') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
+            <a href="<?php echo e(route('home')); ?>" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -90,3 +105,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH C:\Users\Dhanushka\Desktop\YSSC\YSSCWEBv3\resources\views/auth/forgot-password.blade.php ENDPATH**/ ?>
