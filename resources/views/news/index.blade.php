@@ -22,7 +22,7 @@
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
             @if($news->count() > 0)
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     @foreach($news as $article)
                         <article class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
                             @if($article->featured_image)

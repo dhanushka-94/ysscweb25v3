@@ -121,7 +121,7 @@
         <!-- Upcoming Fixtures & Latest News - Side by Side -->
         <section class="py-8 sm:py-12 lg:py-16 bg-white">
             <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 max-w-7xl mx-auto">
                     <!-- Upcoming Fixtures -->
                     <div>
                         <div class="text-center mb-6 sm:mb-8">
