@@ -245,16 +245,7 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 max-w-6xl mx-auto">
                     @foreach($latestImages as $image)
                         <div class="group relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition gallery-image-container">
-                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" loading="lazy" style="position: relative; z-index: 2;">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end" style="position: relative; z-index: 3;">
-                                <div class="p-4 text-white w-full">
-                                    <h3 class="font-bold text-sm">{{ $image->category ?: $image->title }}</h3>
-                                </div>
-                            </div>
-                            <!-- Small gallery title overlay -->
-                            <div class="gallery-title-overlay">
-                                {{ $image->category ?: $image->title }}
-                            </div>
+                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" loading="lazy">
                         </div>
                     @endforeach
                 </div>
@@ -399,24 +390,6 @@
             z-index: 3;
         }
         
-        /* Small gallery title overlay */
-        .gallery-title-overlay {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            z-index: 4;
-            backdrop-filter: blur(4px);
-            max-width: calc(100% - 16px);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
         
         /* Mobile responsive improvements */
         @media (max-width: 640px) {
@@ -427,11 +400,6 @@
                 overflow: hidden;
             }
             
-            .gallery-title-overlay {
-                font-size: 0.625rem;
-                padding: 2px 6px;
-                max-width: calc(100% - 12px);
-            }
             
             /* Mobile slider improvements */
             .slider-container {
