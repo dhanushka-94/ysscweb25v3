@@ -26,7 +26,7 @@ class TeamController extends Controller
 
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'About', 'url' => route('about')],
+            ['title' => 'About', 'url' => route('about.club')],
             ['title' => 'Team', 'url' => null]
         ];
 
