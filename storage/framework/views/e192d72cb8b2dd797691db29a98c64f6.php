@@ -4,41 +4,14 @@
 <?php $__env->startSection('description', 'Meet our talented team members from different categories including main team, youth teams, coaching staff, and management.'); ?>
 
 <?php $__env->startSection('content'); ?>
-<!-- Hero Section -->
-<div class="relative bg-gradient-to-r from-yellow-400 to-yellow-500 py-20">
-    <div class="absolute inset-0 bg-black opacity-20"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Our Team</h1>
-        <p class="text-xl text-white/90 max-w-3xl mx-auto">Meet the talented individuals who make up our football club family</p>
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-yellow-400 to-yellow-500 py-16">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Team</h1>
+        <p class="text-lg md:text-xl text-gray-800">Meet the talented individuals who make up our football club family</p>
     </div>
-</div>
+</section>
 
-<!-- Breadcrumbs -->
-<div class="bg-gray-50 py-4">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex" aria-label="Breadcrumb">
-            <ol class="flex items-center space-x-2">
-                <?php $__currentLoopData = $breadcrumbs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $breadcrumb): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li class="flex items-center">
-                        <?php if($breadcrumb['url']): ?>
-                            <a href="<?php echo e($breadcrumb['url']); ?>" class="text-yellow-600 hover:text-yellow-700 font-medium">
-                                <?php echo e($breadcrumb['title']); ?>
-
-                            </a>
-                        <?php else: ?>
-                            <span class="text-gray-500 font-medium"><?php echo e($breadcrumb['title']); ?></span>
-                        <?php endif; ?>
-                        <?php if(!$loop->last): ?>
-                            <svg class="w-4 h-4 mx-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </ol>
-        </nav>
-    </div>
-</div>
 
 <!-- Team Categories -->
 <div class="py-16 bg-white">
