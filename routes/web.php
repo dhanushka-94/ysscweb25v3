@@ -38,6 +38,7 @@ Route::prefix('sportspress')->name('sportspress.')->group(function () {
 Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors');
 Route::get('/gallery', [GalleryImageController::class, 'index'])->name('gallery');
 Route::get('/videos', [YouTubeController::class, 'index'])->name('youtube');
+Route::get('/videos/search', [YouTubeController::class, 'search'])->name('youtube.search');
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ProductController::class, 'show'])->name('shop.show');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

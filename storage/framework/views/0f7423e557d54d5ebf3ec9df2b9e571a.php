@@ -62,7 +62,7 @@
                         
                         <!-- Hidden images for this gallery (shown when "View More" is clicked) -->
                         <div id="all-images-<?php echo e(Str::slug($galleryTitle)); ?>" class="hidden mt-6">
-                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 max-w-7xl mx-auto">
                                 <?php $__currentLoopData = $images->skip(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="group relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition cursor-pointer" 
                                          onclick="openLightbox('<?php echo e(asset('storage/' . $image->image_path)); ?>', '<?php echo e($image->title); ?>', '<?php echo e($image->description ?? ''); ?>')">
